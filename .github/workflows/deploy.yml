@@ -1,0 +1,46 @@
+name: Deploy site (preview) - build React + FTP Locaweb
+
+on:
+  push:
+    branches:
+      - "main"
+    paths:
+      - "public/content.json"
+      - "public/images/**"
+      - "src/**"
+      - "index.html"
+      - "package.json"
+      - "vite.config.js"
+  workflow_dispatch: # permite rodar manualmente pela aba Actions
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Deploy via FTP (Locaweb) - subpasta /preview
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          password: ${{ secrets.PASS }}
+          local-dir: ./dist/
+          # IMPORTANTE: publica SOMENTE dentro de /preview.
+          # O site da raiz (public_html/) nao e tocado.
+          server-dir: ./public_html/preview/
+          # Nao apaga nada fora de server-dir. (false e o padrao, explicito por seguranca.)
+          dangerous-clean-slate: false

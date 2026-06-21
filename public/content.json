@@ -1,24 +1,11 @@
 {
   "hero": {
-    "titulo": "Nova Era Digital",
-    "subtitulo": "Soluções que transformam seu negócio",
-    "textoBotao": "Fale conosco",
-    "imagemFundo": ""
+    "titulo": "Evolutionis Serviços LTDA",
+    "subtitulo": "joao pedro fez alteração",
+    "textoBotao": "fale conosco",
+    "imagemFundo": "/images/1780835420901-airsofto-01.jpg"
   },
-  "sobre": {
-    "titulo": "Quem somos",
-    "texto": "Uma agência focada em resultados reais, unindo tecnologia e estratégia para levar a sua marca ao próximo nível.",
-    "imagem": ""
-  },
-  "servicos": {
-    "titulo": "O que fazemos",
-    "descricao": "Desenvolvimento de sites, automação de processos e marketing digital sob medida.",
-    "icone": "Rocket"
-  },
-  "contato": {
-    "email": "contato@novaera.com",
-    "telefone": "(92) 99999-0000",
-    "endereco": "Manaus, AM",
-    "iconeRedes": "Instagram"
+  "identidade": {
+    "corPrimaria": "#e00000"
   }
 }
