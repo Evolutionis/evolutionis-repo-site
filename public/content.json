@@ -1,11 +1,7 @@
 {
   "hero": {
-    "titulo": "Evolutionis Serviços LTDA",
-    "subtitulo": "joao pedro fez alteração",
-    "textoBotao": "fale conosco",
-    "imagemFundo": "/images/1780835420901-airsofto-01.jpg"
-  },
-  "identidade": {
-    "corPrimaria": "#e00000"
+    "titulo": "Novo SIte",
+    "subtitulo": "Fazer um teste com o novo site do meu pai",
+    "textoBotao": "Venha falar com a gente no whats"
   }
 }
