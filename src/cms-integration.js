@@ -1,6 +1,6 @@
 async function applyCMSContent() {
   try {
-    const res = await fetch('content.json?t=' + Date.now());
+    const res = await fetch('/content.json?t=' + Date.now());
     if (!res.ok) return;
     const data = await res.json();
 
@@ -24,8 +24,7 @@ async function applyCMSContent() {
       if (data.identidade.logo) {
         const logoContainer = document.querySelector('header a.flex.items-center div.h-10');
         if (logoContainer) {
-          const logoSrc = data.identidade.logo.startsWith('/') ? data.identidade.logo.substring(1) : data.identidade.logo;
-          logoContainer.innerHTML = `<img src="${logoSrc}" alt="Logo" class="h-full object-contain" />`;
+          logoContainer.innerHTML = `<img src="${data.identidade.logo}" alt="Logo" class="h-full object-contain" />`;
         }
       }
     }
@@ -77,9 +76,8 @@ async function applyCMSContent() {
         if (data.hero.imagemPrincipal) {
           const img = heroSection.querySelector('img.lazy-image');
           if (img) {
-            const imgSrc = data.hero.imagemPrincipal.startsWith('/') ? data.hero.imagemPrincipal.substring(1) : data.hero.imagemPrincipal;
-            img.src = imgSrc;
-            img.setAttribute('data-full-src', imgSrc);
+            img.src = data.hero.imagemPrincipal;
+            img.setAttribute('data-full-src', data.hero.imagemPrincipal);
           }
         }
       }
