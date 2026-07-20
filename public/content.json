@@ -1,5 +1,8 @@
 {
   "identidade": {
     "corPrimaria": "#b1dd8c"
+  },
+  "cabecalho": {
+    "menu1": "Teste"
   }
 }
