@@ -5,5 +5,9 @@
   },
   "identidade": {
     "corPrimaria": "#b1dd8c"
+  },
+  "hero": {
+    "badge": "Há mais de 20 anos no mercado 2",
+    "titulo": "Soluções completas em limpeza, paisagismo e controle de pragas 2"
   }
 }
