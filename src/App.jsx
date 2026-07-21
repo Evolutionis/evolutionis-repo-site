@@ -6,7 +6,7 @@ import { Icon } from './components/Icon';
 // base relativa: usa import.meta.env.BASE_URL para funcionar em subpastas.
 async function loadContent() {
   const base = import.meta.env.BASE_URL || '/';
-  const res = await fetch(`${base}content.json`, { cache: 'no-cache' });
+  const res = await fetch(`${base}content.json?t=${Date.now()}`, { cache: 'no-store' });
   if (!res.ok) throw new Error('Falha ao carregar conteúdo');
   return res.json();
 }
