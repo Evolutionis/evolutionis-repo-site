@@ -1,6 +1,13 @@
 async function applyCMSContent() {
   try {
-    const res = await fetch('content.json?t=' + Date.now());
+    const res = await fetch('content.json?t=' + Date.now(), {
+      cache: 'no-store',
+      headers: {
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0'
+      }
+    });
     if (!res.ok) return;
     const data = await res.json();
 
