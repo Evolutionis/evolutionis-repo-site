@@ -1,8 +1,9 @@
 {
+  "cabecalho": {
+    "menu1": "Teste novo",
+    "menu2": "novo teste 2"
+  },
   "identidade": {
     "corPrimaria": "#b1dd8c"
-  },
-  "cabecalho": {
-    "menu1": "Teste"
   }
 }
