@@ -5,6 +5,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#1E4E79">
 
+  <!-- O site é publicado como estático (FTP para a Locaweb), sem servidor de
+       aplicação que possa mandar cabeçalhos. A CSP entra por meta tag, que o
+       navegador aplica igual, e os cabeçalhos que meta tag não suporta ficam
+       no .htaccess ao lado. Camadas diferentes; nenhuma cobre a outra.
+
+       Isto é a rede de segurança dos achados A1 e A2: mesmo que um valor
+       hostil escape da validação em src/lib/sanitize.js, script inline e
+       javascript: não executam. -->
+  <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    script-src 'self';
+    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+    font-src 'self' https://fonts.gstatic.com;
+    img-src 'self' https: data:;
+    frame-src https://google.com https://*.google.com https://google.com.br https://*.google.com.br;
+    connect-src 'self';
+    object-src 'none';
+    base-uri 'self';
+    form-action 'self'
+  ">
+
   <title>Evolutionis Serviços | Limpeza, Paisagismo e Controle de Pragas</title>
   <meta name="description" content="Há mais de 20 anos em limpeza profissional, paisagismo e controle de pragas para condomínios, empresas e indústrias em São Roque/SP. Acompanhe cada atendimento em tempo real.">
 
