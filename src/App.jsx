@@ -48,6 +48,7 @@ export default function App() {
   }, [content, assetUrl]);
 
   const logo = assetUrl(content.identidade.logo);
+  const logoClaro = assetUrl(content.identidade.logoClaro || content.identidade.logo);
 
   return (
     <>
@@ -67,7 +68,7 @@ export default function App() {
         <Contato contato={content.contato} />
       </main>
 
-      <Rodape rodape={content.rodape} contato={content.contato} logo={logo} />
+      <Rodape rodape={content.rodape} contato={content.contato} logo={logoClaro} />
       <WhatsAppFloat contato={content.contato} visivel={showWa && !perto} />
       <AvisoAtualizacao />
     </>

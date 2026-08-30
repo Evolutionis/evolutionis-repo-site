@@ -11,6 +11,9 @@ export const DEFAULTS = {
     corPrimaria: '#1E4E79',
     corSecundaria: '#DDEAF6',
     logo: '/logo.png',
+    // Versão invertida para fundos escuros (rodapé). O logotipo original tem
+    // a placa azul-clara embutida na imagem e sumiria no escuro.
+    logoClaro: '/logo-claro.png',
   },
 
   cabecalho: {
