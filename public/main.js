@@ -1,4 +1,8 @@
-// Mobile menu toggle
+// Footer copyright year
+    const copyrightYear = document.getElementById('copyright-year');
+    if (copyrightYear) copyrightYear.textContent = new Date().getFullYear();
+
+    // Mobile menu toggle
     const mobileMenuBtn = document.getElementById('mobile-menu-btn');
     const mobileMenu = document.getElementById('mobile-menu');
 
