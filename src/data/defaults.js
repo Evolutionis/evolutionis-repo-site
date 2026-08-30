@@ -10,9 +10,11 @@ export const DEFAULTS = {
   identidade: {
     corPrimaria: '#1E4E79',
     corSecundaria: '#DDEAF6',
+    // Cabeçalho e fundos claros: logotipo com a placa azul-clara preenchida.
     logo: '/logo.png',
-    // Versão invertida para fundos escuros (rodapé). O logotipo original tem
-    // a placa azul-clara embutida na imagem e sumiria no escuro.
+    // Rodapé e fundos escuros: versão com o contorno em traço, gerada a partir
+    // do arquivo com borda. A marca fica clara e opaca; o contorno, a 38% de
+    // opacidade, para emoldurar sem competir com ela.
     logoClaro: '/logo-claro.png',
   },
 
