@@ -449,8 +449,15 @@ footer{background:var(--ink);color:#94A6B6;padding:clamp(46px,6vw,64px) 0 28px;}
 .ft-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:36px;}
 @media(max-width:800px){.ft-grid{grid-template-columns:1fr 1fr;}}
 @media(max-width:520px){.ft-grid{grid-template-columns:1fr;}}
-footer .lg{background:#fff;border-radius:10px;padding:12px 14px;display:inline-block;}
-footer .lg img{height:34px;}
+/* O rodapé usa a versão invertida do logotipo. A moldura repete o formato da
+   própria marca — cápsula, com as pontas totalmente arredondadas — em contorno
+   fino, em vez da placa branca preenchida que destoava do fundo escuro. */
+/* O contorno faz parte do arquivo do logotipo (versão clara para fundo escuro),
+   então aqui não há moldura em CSS — ela duplicaria a borda da imagem. */
+/* A classe fica no proprio <img>, entao o tamanho e definido aqui — nao em
+   `footer .lg img`, que nao casaria com nada e deixaria a altura por conta
+   dos atributos width/height do elemento. */
+footer .lg{display:block;height:46px;width:auto;}
 footer p.ab{font-size:13.5px;margin-top:18px;max-width:34ch;line-height:1.6;}
 footer h5{
   font-family:'IBM Plex Mono';font-size:11px;letter-spacing:.09em;text-transform:uppercase;
@@ -528,4 +535,11 @@ footer ul a:hover{color:#fff;}
     background:var(--brand);color:#fff;font-weight:600;text-align:center;font-size:14.5px;
   }
   nav.links .cta-mobile:hover{background:var(--brand-deep);color:#fff;}
+}
+
+/* O botão flutuante do WhatsApp cobria a linha de copyright no fim da página.
+   Reserva o espaço dele no rodapé em vez de esconder o botão — no rodapé ele
+   ainda é o caminho mais rápido de contato. */
+@media(max-width:600px){
+  .ft-base{padding-bottom:64px;}
 }

@@ -10,7 +10,13 @@ export const DEFAULTS = {
   identidade: {
     corPrimaria: '#1E4E79',
     corSecundaria: '#DDEAF6',
+    // Cabeçalho e fundos claros: logotipo com a placa azul-clara preenchida.
     logo: '/logo.png',
+    // Rodapé: versão invertida da mesma arte, para fundo escuro (#0F1A24).
+    // Dá 14,4:1 de contraste, acima do mínimo de 3:1 da WCAG para elementos
+    // gráficos. A versão em azul da marca (/logo-rodape.png) fica em 2,03:1
+    // sobre esse fundo — praticamente ilegível — por isso não é usada aqui.
+    logoRodape: '/logo-claro.png',
   },
 
   cabecalho: {
