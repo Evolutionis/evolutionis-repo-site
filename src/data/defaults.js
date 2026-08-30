@@ -12,10 +12,12 @@ export const DEFAULTS = {
     corSecundaria: '#DDEAF6',
     // Cabeçalho e fundos claros: logotipo com a placa azul-clara preenchida.
     logo: '/logo.png',
-    // Rodapé e fundos escuros: versão com o contorno em traço, gerada a partir
-    // do arquivo com borda. A marca fica clara e opaca; o contorno, a 38% de
-    // opacidade, para emoldurar sem competir com ela.
-    logoClaro: '/logo-claro.png',
+    // Rodapé: arquivo com o contorno em traço, aplicado como recebido.
+    // Nota de contraste: a marca (#1E4E79) sobre o fundo do rodapé (#0F1A24)
+    // dá 2,03:1 — abaixo do mínimo de 3:1 da WCAG para elementos gráficos.
+    // Existe /logo-claro.png com a mesma arte invertida (14,4:1) caso se opte
+    // por priorizar legibilidade.
+    logoRodape: '/logo-rodape.png',
   },
 
   cabecalho: {
