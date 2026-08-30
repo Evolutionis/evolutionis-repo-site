@@ -453,15 +453,26 @@ footer{background:var(--ink);color:#94A6B6;padding:clamp(46px,6vw,64px) 0 28px;}
    própria marca — cápsula, com as pontas totalmente arredondadas — em contorno
    fino, em vez da placa branca preenchida que destoava do fundo escuro. */
 footer .lg{
-  display:inline-flex;align-items:center;justify-content:center;
-  /* 44px de imagem + 12 de respiro = 56 de altura;
-     150 de imagem + 40 de respiro = 190 de largura → 3,39:1,
-     a mesma proporção da placa do logotipo original (1175x345 = 3,40:1). */
-  padding:6px 20px;
-  border:1px solid rgba(221,234,246,.28);
-  border-radius:999px;
+  /* A borda reproduz a placa do logotipo, não uma moldura em volta dele.
+     Medido no arquivo original: a placa começa a 16,3% da largura, tem 97,4%
+     da altura e é uma cápsula perfeita — o "e" fica FORA dela, atravessando a
+     borda pela esquerda, que é como a marca foi construída. */
+  position:relative;
+  display:inline-block;
+  padding:2px 0;
 }
-footer .lg img{display:block;height:44px;width:auto;}
+footer .lg img{display:block;height:44px;width:auto;position:relative;z-index:1;}
+footer .lg::before{
+  content:'';
+  position:absolute;
+  left:16.3%;            /* onde a placa começa */
+  right:0;
+  top:1px;
+  bottom:1px;
+  border:1px solid rgba(221,234,246,.32);
+  border-radius:999px;   /* pontas totalmente arredondadas, como a placa */
+  pointer-events:none;
+}
 footer p.ab{font-size:13.5px;margin-top:18px;max-width:34ch;line-height:1.6;}
 footer h5{
   font-family:'IBM Plex Mono';font-size:11px;letter-spacing:.09em;text-transform:uppercase;
