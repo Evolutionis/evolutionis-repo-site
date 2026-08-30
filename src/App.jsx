@@ -1,6 +1,6 @@
 import { useEffect, useMemo } from 'react';
 import { useContent } from './hooks/useContent';
-import { useScrollUi, useActiveSection, useHiddenNear, useReveal } from './hooks/useScrollUi';
+import { useScrollUi, useProgressBar, useActiveSection, useHiddenNear, useReveal } from './hooks/useScrollUi';
 import { aplicarSeo } from './seo';
 
 import Nav from './components/secoes/Nav';
@@ -21,13 +21,15 @@ const IDS = ['inicio', 'operacao', 'servicos', 'acompanhe', 'clientes', 'diferen
 
 export default function App() {
   const { content, assetUrl } = useContent();
-  const { progress, stuck, showWa } = useScrollUi();
+  const { stuck, showWa } = useScrollUi();
+  const barraRef = useProgressBar();
   const ids = useMemo(() => IDS, []);
   const ativo = useActiveSection(ids);
 
   // O botão flutuante cobria o botão de enviar do formulário; some perto do contato.
   const perto = useHiddenNear('contato');
-  useReveal();
+  // re-varre quando o conteúdo do CMS chega; nunca a cada render
+  useReveal([content]);
 
   // As duas cores da marca vêm do CMS e entram como variáveis CSS, para o
   // painel poder ajustar a identidade sem novo deploy do código.
@@ -49,7 +51,7 @@ export default function App() {
 
   return (
     <>
-      <div id="progress"><i style={{ width: `${progress}%` }} /></div>
+      <div id="progress"><i ref={barraRef} /></div>
 
       <Nav cabecalho={content.cabecalho} logo={logo} ativo={ativo} stuck={stuck} />
       <ScrollRail ativo={ativo} />

@@ -519,3 +519,13 @@ footer ul a:hover{color:#fff;}
 /* a figura do depoimento agora é <figure>/<blockquote>: zera as margens do UA */
 .dep blockquote{margin:0;flex:1;}
 .dep figcaption{display:flex;}
+
+/* CTA dentro do menu mobile — o botão do cabeçalho fica oculto nesse tamanho */
+.cta-mobile{display:none;}
+@media(max-width:920px){
+  nav.links .cta-mobile{
+    display:block;margin:8px 6px 6px;padding:13px 16px;border-radius:30px;
+    background:var(--brand);color:#fff;font-weight:600;text-align:center;font-size:14.5px;
+  }
+  nav.links .cta-mobile:hover{background:var(--brand-deep);color:#fff;}
+}

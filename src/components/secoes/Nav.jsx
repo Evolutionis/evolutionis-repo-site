@@ -24,6 +24,7 @@ export default function Nav({ cabecalho, logo, ativo, stuck }) {
               {cabecalho[k]}
             </a>
           ))}
+          <a href="#contato" className="cta-mobile">{cabecalho.textoBotao}</a>
         </nav>
 
         <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
