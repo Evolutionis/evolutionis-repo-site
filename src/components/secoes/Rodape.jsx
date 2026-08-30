@@ -1,11 +1,14 @@
 import { Icone } from '../Icones';
+import { isHttpsUrl } from '../../lib/sanitize';
 import { whatsappContactTemplate, whatsappLink } from '../../lib/whatsapp';
 
 export default function Rodape({ rodape, contato, logo }) {
+  // Um perfil que não seja https: não vira link. Sem o filtro, um valor como
+  // "javascript:..." publicado pelo painel executaria no clique do visitante.
   const redes = [
     { url: rodape.instagram, nome: 'Instagram', icone: 'instagram' },
     { url: rodape.facebook, nome: 'Facebook', icone: 'facebook' },
-  ].filter((r) => r.url);
+  ].filter((r) => isHttpsUrl(r.url));
 
   return (
     <footer>

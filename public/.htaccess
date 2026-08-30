@@ -1,0 +1,38 @@
+# Cabeçalhos de segurança — achado M4.
+#
+# Este arquivo fica em public/, então o Vite o copia para dist/ no build e ele
+# sobe junto no deploy por FTP. Aqui estão só os cabeçalhos que uma meta tag
+# NÃO consegue declarar; a Content-Security-Policy propriamente dita está no
+# index.html, porque não depende do servidor respeitar .htaccess.
+#
+# ATENÇÃO — isto precisa ser conferido depois do primeiro deploy:
+# a Locaweb pode ignorar .htaccess conforme o plano de hospedagem (exige
+# AllowOverride habilitado). Abra o site publicado, aba Network > Headers, e
+# confirme que os três cabeçalhos abaixo aparecem na resposta do documento. Se
+# não aparecerem, o servidor está descartando este arquivo — nesse caso a
+# proteção real é só a do index.html, e a limitação deve ser registrada em vez
+# de ser dada como resolvida.
+
+<IfModule mod_headers.c>
+  # Impede o navegador de adivinhar o tipo do conteúdo. Sem isso, um arquivo
+  # servido com o tipo errado pode acabar interpretado como HTML ou script.
+  Header always set X-Content-Type-Options "nosniff"
+
+  # Só funciona como cabeçalho HTTP: frame-ancestors não existe em meta tag, e
+  # X-Frame-Options em meta é ignorado por todos os navegadores.
+  # SAMEORIGIN, e não DENY, porque um painel de pré-visualização do CMS pode
+  # precisar exibir o site num quadro. Se ficar confirmado que ninguém embute o
+  # site, DENY é a opção mais fechada.
+  Header always set X-Frame-Options "SAMEORIGIN"
+
+  # HSTS: 6 meses, sem includeSubDomains e sem preload de propósito.
+  # includeSubDomains passa a valer para TODOS os subdomínios do domínio, e
+  # derruba qualquer um que ainda não tenha HTTPS; preload é praticamente
+  # irreversível. Suba para 31536000 e acrescente includeSubDomains depois de
+  # confirmar que todo subdomínio serve HTTPS.
+  #
+  # env=HTTPS restringe o cabeçalho às respostas servidas sobre TLS, como manda
+  # a especificação. É a forma consagrada da diretiva — condicionar por
+  # "expr=..." aqui é fácil de escrever errado e derruba o site com 500.
+  Header always set Strict-Transport-Security "max-age=15768000" env=HTTPS
+</IfModule>
