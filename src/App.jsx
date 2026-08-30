@@ -2,6 +2,7 @@ import { useEffect, useMemo } from 'react';
 import { useContent } from './hooks/useContent';
 import { useScrollUi, useProgressBar, useActiveSection, useHiddenNear, useReveal } from './hooks/useScrollUi';
 import { aplicarSeo } from './seo';
+import { isValidHexColor } from './lib/sanitize';
 
 import Nav from './components/secoes/Nav';
 import ScrollRail from './components/secoes/ScrollRail';
@@ -33,14 +34,19 @@ export default function App() {
 
   // As duas cores da marca vêm do CMS e entram como variáveis CSS, para o
   // painel poder ajustar a identidade sem novo deploy do código.
+  //
+  // Só entra hexadecimal de 6 dígitos: o valor vai para o CSSOM, e um texto
+  // como "red; } body { display:none" seria interpretado como regra, não como
+  // cor. Valor recusado significa manter o padrão já definido em tokens.css —
+  // a marca fica correta em vez de sumir.
   useEffect(() => {
     const r = document.documentElement;
     const { corPrimaria, corSecundaria } = content.identidade;
-    if (corPrimaria) {
+    if (isValidHexColor(corPrimaria)) {
       r.style.setProperty('--brand', corPrimaria);
       r.style.setProperty('--accent', corPrimaria);
     }
-    if (corSecundaria) r.style.setProperty('--tint', corSecundaria);
+    if (isValidHexColor(corSecundaria)) r.style.setProperty('--tint', corSecundaria);
   }, [content.identidade]);
 
   useEffect(() => {
