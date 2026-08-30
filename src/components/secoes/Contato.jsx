@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Icone } from '../Icones';
+import { isGoogleMapsUrl } from '../../lib/sanitize';
 
 const waLink = (num, msg) =>
   `https://wa.me/${num}?text=${encodeURIComponent(msg)}`;
@@ -76,13 +77,17 @@ export default function Contato({ contato }) {
               <p>{contato.urgenciaTexto}</p>
             </div>
 
-            {contato.mapaEmbed ? (
+            {isGoogleMapsUrl(contato.mapaEmbed) ? (
               <iframe
                 className="mapa"
                 src={contato.mapaEmbed}
                 title="Localização da Evolutionis Serviços"
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
+                // O mapa do Google precisa de script para desenhar; o que não
+                // pode é vir acompanhado de allow-same-origin, porque a dupla
+                // permite ao quadro sair do sandbox e alcançar a página.
+                sandbox="allow-scripts allow-popups"
               />
             ) : (
               <div className="mapa-vazio">
