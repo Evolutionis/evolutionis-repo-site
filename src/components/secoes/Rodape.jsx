@@ -11,7 +11,7 @@ export default function Rodape({ rodape, contato, logo }) {
       <div className="shell">
         <div className="ft-grid">
           <div>
-            <img className="lg" src={logo} alt="Evolutionis Serviços" width="150" height="44" />
+            <span className="lg"><img src={logo} alt="Evolutionis Serviços" width="150" height="44" /></span>
             <p className="ab">{rodape.sobre}</p>
             {redes.length > 0 ? (
               <div className="ft-social">
