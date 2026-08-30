@@ -1,9 +1,8 @@
 import { IconeWhatsApp } from '../Icones';
+import { whatsappContactTemplate, whatsappLink } from '../../lib/whatsapp';
 
 export default function WhatsAppFloat({ contato, visivel }) {
-  const href = `https://wa.me/${contato.whatsapp}?text=${encodeURIComponent(
-    'Olá! Gostaria de falar sobre os serviços da Evolutionis.'
-  )}`;
+  const href = whatsappLink(contato.whatsapp, whatsappContactTemplate());
   return (
     <a id="wa" className={visivel ? 'show' : undefined} href={href}
        target="_blank" rel="noopener" aria-label="Falar no WhatsApp">
