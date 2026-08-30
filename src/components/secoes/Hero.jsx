@@ -5,9 +5,13 @@ export default function Hero({ hero }) {
     ? hero.titulo.split(hero.tituloDestaque)
     : [hero.titulo, null];
 
+  // `chave` vem do CMS (pilar.alvo). Interpolada crua, uma aspa no valor fecha
+  // o seletor mais cedo e o resto vira sintaxe — o querySelector passa a mirar
+  // outro elemento, ou lança e derruba o clique. CSS.escape trata o valor como
+  // texto, que é o que ele é.
   const irPara = (chave) => (e) => {
     e.preventDefault();
-    document.querySelector(`.svc-item[data-svc="${chave}"]`)
+    document.querySelector(`.svc-item[data-svc="${CSS.escape(chave)}"]`)
       ?.scrollIntoView({ behavior: 'smooth', block: 'center' });
   };
 
