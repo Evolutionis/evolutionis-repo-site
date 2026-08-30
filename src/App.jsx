@@ -1,147 +1,73 @@
-import { useState, useEffect } from 'react';
-import { Icon } from './components/Icon';
+import { useEffect, useMemo } from 'react';
+import { useContent } from './hooks/useContent';
+import { useScrollUi, useActiveSection, useHiddenNear, useReveal } from './hooks/useScrollUi';
+import { aplicarSeo } from './seo';
 
-// Lê o content.json servido junto com o site (na pasta public).
-// O backend do CMS sobrescreve este arquivo a cada publicação.
-// base relativa: usa import.meta.env.BASE_URL para funcionar em subpastas.
-async function loadContent() {
-  const base = import.meta.env.BASE_URL || '/';
-  const res = await fetch(`${base}content.json?t=${Date.now()}`, { cache: 'no-store' });
-  if (!res.ok) throw new Error('Falha ao carregar conteúdo');
-  return res.json();
-}
+import Nav from './components/secoes/Nav';
+import ScrollRail from './components/secoes/ScrollRail';
+import Hero from './components/secoes/Hero';
+import Operacao from './components/secoes/Operacao';
+import Servicos from './components/secoes/Servicos';
+import Acompanhamento from './components/secoes/Acompanhamento';
+import Clientes from './components/secoes/Clientes';
+import Diferenciais from './components/secoes/Diferenciais';
+import Depoimentos from './components/secoes/Depoimentos';
+import Contato from './components/secoes/Contato';
+import Rodape from './components/secoes/Rodape';
+import WhatsAppFloat from './components/secoes/WhatsAppFloat';
+import AvisoAtualizacao from './components/AvisoAtualizacao';
 
-// Resolve URL de imagem vinda do content.json (ex: "/images/x.jpg").
-function imgUrl(path) {
-  if (!path) return '';
-  if (path.startsWith('http')) return path;
-  const base = (import.meta.env.BASE_URL || '/').replace(/\/$/, '');
-  return base + path;
-}
+const IDS = ['inicio', 'operacao', 'servicos', 'acompanhe', 'clientes', 'diferenciais', 'depoimentos', 'contato'];
 
 export default function App() {
-  const [content, setContent] = useState(null);
-  const [error, setError] = useState(null);
+  const { content, assetUrl } = useContent();
+  const { progress, stuck, showWa } = useScrollUi();
+  const ids = useMemo(() => IDS, []);
+  const ativo = useActiveSection(ids);
+
+  // O botão flutuante cobria o botão de enviar do formulário; some perto do contato.
+  const perto = useHiddenNear('contato');
+  useReveal();
+
+  // As duas cores da marca vêm do CMS e entram como variáveis CSS, para o
+  // painel poder ajustar a identidade sem novo deploy do código.
+  useEffect(() => {
+    const r = document.documentElement;
+    const { corPrimaria, corSecundaria } = content.identidade;
+    if (corPrimaria) {
+      r.style.setProperty('--brand', corPrimaria);
+      r.style.setProperty('--accent', corPrimaria);
+    }
+    if (corSecundaria) r.style.setProperty('--tint', corSecundaria);
+  }, [content.identidade]);
 
   useEffect(() => {
-    loadContent().then(setContent).catch((e) => setError(e.message));
-  }, []);
+    aplicarSeo(content, assetUrl);
+  }, [content, assetUrl]);
 
-  if (error) {
-    return <div className="loader">Não foi possível carregar o conteúdo.</div>;
-  }
-  if (!content) {
-    return <div className="loader"><div className="spinner" /></div>;
-  }
-
-  const { hero = {}, sobre = {}, servicos = {}, contato = {} } = content;
+  const logo = assetUrl(content.identidade.logo);
 
   return (
     <>
-      <nav>
-        <div className="container">
-          <div className="brand">Nova<span>Era</span></div>
-          <div className="links">
-            <a href="#sobre">Sobre</a>
-            <a href="#servicos">Serviços</a>
-            <a href="#contato">Contato</a>
-          </div>
-        </div>
-      </nav>
+      <div id="progress"><i style={{ width: `${progress}%` }} /></div>
 
-      {/* HERO */}
-      <header
-        className={`hero ${hero.imagemFundo ? 'has-bg' : ''}`}
-        style={hero.imagemFundo ? { backgroundImage: `url(${imgUrl(hero.imagemFundo)})` } : {}}
-      >
-        <div className="container">
-          <span className="eyebrow reveal">Agência Digital</span>
-          <h1 className="reveal">{hero.titulo}</h1>
-          <p className="reveal">{hero.subtitulo}</p>
-          {hero.textoBotao && (
-            <a href="#contato" className="btn reveal">
-              {hero.textoBotao} <Icon name="Send" size={17} />
-            </a>
-          )}
-        </div>
-      </header>
+      <Nav cabecalho={content.cabecalho} logo={logo} ativo={ativo} stuck={stuck} />
+      <ScrollRail ativo={ativo} />
 
-      {/* SOBRE */}
-      {(sobre.titulo || sobre.texto) && (
-        <section className="block" id="sobre">
-          <div className="container">
-            <div className="two-col">
-              <div>
-                <div className="label">Sobre nós</div>
-                <h2>{sobre.titulo}</h2>
-                <p className="prose">{sobre.texto}</p>
-              </div>
-              {sobre.imagem ? (
-                <img className="block-img" src={imgUrl(sobre.imagem)} alt={sobre.titulo || ''} />
-              ) : (
-                <div className="img-placeholder">imagem da seção</div>
-              )}
-            </div>
-          </div>
-        </section>
-      )}
+      <main>
+        <Hero hero={content.hero} />
+        <Operacao operacao={content.operacao} />
+        <Servicos servicos={content.servicos} assetUrl={assetUrl} />
+        <Acompanhamento acompanhamento={content.acompanhamento} />
+        <Clientes clientes={content.clientes} />
+        <Diferenciais diferenciais={content.diferenciais} />
+        <Depoimentos depoimentos={content.depoimentos} />
+        <Contato contato={content.contato} />
+      </main>
 
-      {/* SERVIÇOS */}
-      {(servicos.titulo || servicos.descricao) && (
-        <section className="block" id="servicos">
-          <div className="container">
-            <div className="label">O que fazemos</div>
-            <div className="svc-card">
-              {servicos.icone && (
-                <div className="svc-icon"><Icon name={servicos.icone} size={30} /></div>
-              )}
-              <div>
-                <h2 style={{ fontSize: 32, marginBottom: 14 }}>{servicos.titulo}</h2>
-                <p className="prose">{servicos.descricao}</p>
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* CONTATO */}
-      <section className="block" id="contato">
-        <div className="container">
-          <div className="label">Fale conosco</div>
-          <h2>Vamos conversar sobre o seu projeto</h2>
-          <div className="contact-grid">
-            {contato.email && (
-              <div className="contact-item">
-                <span className="k"><Icon name="Mail" size={15} /> E-mail</span>
-                <span className="v">{contato.email}</span>
-              </div>
-            )}
-            {contato.telefone && (
-              <div className="contact-item">
-                <span className="k"><Icon name="Phone" size={15} /> Telefone</span>
-                <span className="v">{contato.telefone}</span>
-              </div>
-            )}
-            {contato.endereco && (
-              <div className="contact-item">
-                <span className="k"><Icon name="MapPin" size={15} /> Endereço</span>
-                <span className="v">{contato.endereco}</span>
-              </div>
-            )}
-          </div>
-        </div>
-      </section>
-
-      <footer>
-        <div className="container">
-          <span>© {new Date().getFullYear()} NovaEra. Todos os direitos reservados.</span>
-          {contato.iconeRedes && (
-            <div className="social">
-              <a href="#" aria-label="Redes sociais"><Icon name={contato.iconeRedes} size={20} /></a>
-            </div>
-          )}
-        </div>
-      </footer>
+      <Rodape rodape={content.rodape} contato={content.contato} logo={logo} />
+      <WhatsAppFloat contato={content.contato} visivel={showWa && !perto} />
+      <AvisoAtualizacao />
     </>
   );
 }
