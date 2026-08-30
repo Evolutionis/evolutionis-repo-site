@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { Icone } from '../Icones';
 import { isGoogleMapsUrl } from '../../lib/sanitize';
-
-const waLink = (num, msg) =>
-  `https://wa.me/${num}?text=${encodeURIComponent(msg)}`;
+import {
+  whatsappContactTemplate,
+  whatsappLink,
+  whatsappQuoteTemplate,
+} from '../../lib/whatsapp';
 
 export default function Contato({ contato }) {
   const [enviando, setEnviando] = useState(false);
@@ -16,17 +18,15 @@ export default function Contato({ contato }) {
     e.preventDefault();
     setEnviando(true);
     const f = new FormData(e.currentTarget);
-    const msg = [
-      'Olá! Gostaria de solicitar um orçamento.',
-      '',
-      `Nome: ${f.get('nome')}`,
-      `Telefone: ${f.get('telefone')}`,
-      f.get('email') ? `E-mail: ${f.get('email')}` : null,
-      `Tipo de local: ${f.get('local')}`,
-      `Serviço: ${f.get('servico')}`,
-      f.get('mensagem') ? `\n${f.get('mensagem')}` : null,
-    ].filter(Boolean).join('\n');
-    window.open(waLink(contato.whatsapp, msg), '_blank', 'noopener');
+    const msg = whatsappQuoteTemplate({
+      nome: f.get('nome'),
+      telefone: f.get('telefone'),
+      email: f.get('email'),
+      local: f.get('local'),
+      servico: f.get('servico'),
+      mensagem: f.get('mensagem'),
+    });
+    window.open(whatsappLink(contato.whatsapp, msg), '_blank', 'noopener');
     setEnviando(false);
   }
 
@@ -42,7 +42,7 @@ export default function Contato({ contato }) {
         <div className="ct-grid">
           <div className="rv">
             <div className="ct-card">
-              <a className="ct-row" href={waLink(contato.whatsapp, 'Olá! Gostaria de falar sobre os serviços da Evolutionis.')} target="_blank" rel="noopener">
+              <a className="ct-row" href={whatsappLink(contato.whatsapp, whatsappContactTemplate())} target="_blank" rel="noopener">
                 <span className="ic"><Icone nome="telefone" size={17} /></span>
                 <span>
                   <span className="lb">WhatsApp · resposta mais rápida</span>
