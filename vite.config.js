@@ -3,7 +3,11 @@ import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
 
 export default defineConfig({
-  base: '/preview/',
+  // Onde o site vive no servidor. Homologação fica em /preview/ e produção na
+  // raiz, e o caminho entra nos assets no momento do build — não dá para
+  // decidir depois. O workflow de produção define VITE_BASE=/ ; sem a
+  // variável, continua sendo /preview/, que é o comportamento de sempre.
+  base: process.env.VITE_BASE || '/preview/',
   plugins: [
     react(),
     VitePWA({

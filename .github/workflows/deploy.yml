@@ -1,9 +1,14 @@
-name: Deploy site (preview) - build React + FTP Locaweb
+# Homologação. Publica em public_html/preview/ a cada push no branch `homolog`.
+#
+# Antes este workflow rodava na `main`. Com os dois ambientes, `main` passou a
+# ser produção (deploy-producao.yml) e a homologação ganhou branch próprio —
+# senão não existe lugar para conferir antes de o cliente ver.
+name: Deploy homologacao (/preview) - build React + FTP Locaweb
 
 on:
   push:
     branches:
-      - "main"
+      - "homolog"
     paths:
       - "public/content.json"
       - "public/images/**"

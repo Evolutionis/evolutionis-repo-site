@@ -1,0 +1,62 @@
+# Produção. Publica na RAIZ (public_html/) a cada push na `main`.
+#
+# A `main` só recebe commit pelo botão "Promover para produção" do painel, que
+# copia para cá o content.json já conferido em homologação.
+name: Deploy producao (raiz) - build React + FTP Locaweb
+
+on:
+  push:
+    branches:
+      - "main"
+    paths:
+      - "public/content.json"
+      - "public/images/**"
+      - "src/**"
+      - "index.html"
+      - "package.json"
+      - "vite.config.js"
+  workflow_dispatch: # permite rodar manualmente pela aba Actions
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    environment: producao
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: ""
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Build
+        # Sem isto o build sai com os caminhos apontando para /preview/ e, na
+        # raiz, nenhum arquivo carrega — a página abre em branco, sem erro
+        # visível no servidor.
+        run: npm run build
+        env:
+          VITE_BASE: /
+
+      - name: Deploy via FTP (Locaweb) - raiz
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          password: ${{ secrets.PASS }}
+          local-dir: ./dist/
+          server-dir: ./public_html/
+          # dangerous-clean-slate: false e obrigatorio aqui. Com true, a acao
+          # APAGA tudo em public_html/ antes de enviar — inclusive a pasta
+          # preview/ e qualquer coisa que ja exista na hospedagem.
+          dangerous-clean-slate: false
+          # Nao mexe na pasta de homologacao nem em arquivos do servidor.
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            preview/**
