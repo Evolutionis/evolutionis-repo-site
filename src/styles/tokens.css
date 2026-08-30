@@ -454,8 +454,10 @@ footer{background:var(--ink);color:#94A6B6;padding:clamp(46px,6vw,64px) 0 28px;}
    fino, em vez da placa branca preenchida que destoava do fundo escuro. */
 /* O contorno faz parte do arquivo do logotipo (versão clara para fundo escuro),
    então aqui não há moldura em CSS — ela duplicaria a borda da imagem. */
-footer .lg{display:block;}
-footer .lg img{display:block;height:46px;width:auto;}
+/* A classe fica no proprio <img>, entao o tamanho e definido aqui — nao em
+   `footer .lg img`, que nao casaria com nada e deixaria a altura por conta
+   dos atributos width/height do elemento. */
+footer .lg{display:block;height:46px;width:auto;}
 footer p.ab{font-size:13.5px;margin-top:18px;max-width:34ch;line-height:1.6;}
 footer h5{
   font-family:'IBM Plex Mono';font-size:11px;letter-spacing:.09em;text-transform:uppercase;
