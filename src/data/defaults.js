@@ -39,7 +39,7 @@ export const DEFAULTS = {
     textoBotao2: 'Ver os serviços',
     aviso: 'Cada atendimento acompanhado em tempo real pelo portal do cliente',
     pilares: [
-      { titulo: 'Limpeza profissional', desc: "Pós-obra, fachadas, pisos e caixa d'água", alvo: 'posobra', icone: 'limpeza' },
+      { titulo: 'Limpeza profissional', desc: "Pós-obra, fachadas, pisos e caixa d'água", alvo: 'limpeza', icone: 'limpeza' },
       { titulo: 'Paisagismo', desc: 'Projetos, manutenção, poda e irrigação automatizada', alvo: 'paisagismo', icone: 'planta' },
       { titulo: 'Controle de pragas', desc: 'Dedetização, desratização e descupinização — ANVISA', alvo: 'dedetizacao', icone: 'escudo' },
     ],
@@ -85,7 +85,7 @@ export const DEFAULTS = {
   // o currentTime do vídeo dentro dessa faixa. Se mudar o vídeo, ajuste aqui.
   servicos: {
     eyebrow: 'Serviços',
-    titulo: 'Seis frentes, um único time.',
+    titulo: 'Três frentes, um único time.',
     texto:
       'A rolagem controla o vídeo ao lado: cada serviço que você percorre avança a cena correspondente, mostrando o time em campo.',
     itens: [
@@ -112,47 +112,38 @@ export const DEFAULTS = {
         b: 3.458,
       },
       {
-        chave: 'posobra',
+        // Pós-obra, fachada, piso e caixa d'água eram quatro serviços separados.
+        // Viraram especialidades de um só, porque é assim que o Hero, o rodapé e
+        // o formulário sempre nomearam o conjunto: "Limpeza profissional".
+        //
+        // A fusão não exigiu recortar o vídeo: os quatro segmentos eram
+        // contíguos (3,458 → 5,166 → 6,791 → 8,041 → 10,416), então o trecho
+        // deste item é a soma exata deles.
+        chave: 'limpeza',
         num: '03',
-        titulo: 'Limpeza pós-obra',
-        rotulo: 'Limpeza pós-obra',
-        legenda: 'Equipe na entrega final da obra',
-        desc: 'Retirada de resíduo fino, remoção de respingos e higienização completa — a obra entregue pronta para uso, sem etapa intermediária.',
-        tags: ['Resíduo fino', 'Respingos', 'Entrega final'],
+        titulo: 'Limpeza profissional',
+        rotulo: 'Limpeza profissional',
+        legenda: 'Da entrega da obra à manutenção do dia a dia',
+        desc: 'Conservação do ambiente construído de ponta a ponta — da entrega da obra à rotina de manutenção, com equipe treinada e equipamento próprio para cada superfície.',
+        especialidades: [
+          {
+            titulo: 'Pós-obra',
+            desc: 'Retirada de resíduo fino, remoção de respingos e higienização completa — a obra entregue pronta para uso, sem etapa intermediária.',
+          },
+          {
+            titulo: 'Fachada',
+            desc: 'Vidros, revestimentos e esquadrias em altura, com equipe treinada em trabalho vertical e equipamento de segurança certificado.',
+          },
+          {
+            titulo: 'Tratamento de piso',
+            desc: 'Lavagem mecanizada, cristalização e impermeabilização — recupera o piso e prolonga o intervalo entre manutenções.',
+          },
+          {
+            titulo: "Caixa d'água",
+            desc: 'Higienização de reservatórios em shoppings, prédios comerciais e condomínios, com laudo e periodicidade dentro da norma.',
+          },
+        ],
         a: 3.458,
-        b: 5.166,
-      },
-      {
-        chave: 'fachada',
-        num: '04',
-        titulo: 'Limpeza de fachada',
-        rotulo: 'Limpeza de fachada',
-        legenda: 'Trabalho em altura com segurança',
-        desc: 'Vidros, revestimentos e esquadrias em altura, com equipe treinada em trabalho vertical e equipamento de segurança certificado.',
-        tags: ['Vidros', 'Revestimentos', 'Trabalho em altura'],
-        a: 5.166,
-        b: 6.791,
-      },
-      {
-        chave: 'piso',
-        num: '05',
-        titulo: 'Tratamento de piso',
-        rotulo: 'Tratamento de piso',
-        legenda: 'Lavagem mecanizada e cristalização',
-        desc: 'Lavagem mecanizada, cristalização e impermeabilização — recupera o piso e prolonga o intervalo entre manutenções.',
-        tags: ['Lavagem mecanizada', 'Cristalização', 'Impermeabilização'],
-        a: 6.791,
-        b: 8.041,
-      },
-      {
-        chave: 'caixadagua',
-        num: '06',
-        titulo: "Limpeza de caixa d'água",
-        rotulo: "Caixa d'água",
-        legenda: 'Reservatórios de shopping e condomínio',
-        desc: 'Higienização de reservatórios em shoppings, prédios comerciais e condomínios, com laudo e periodicidade dentro da norma.',
-        tags: ['Shoppings', 'Condomínios', 'Laudo técnico'],
-        a: 8.041,
         b: 10.416,
       },
     ],

@@ -237,6 +237,14 @@ section{padding:clamp(64px,9vw,116px) 0;position:relative;}
   font-family:'IBM Plex Mono';font-size:11.5px;padding:5px 11px;border-radius:30px;
   border:1px solid var(--line);color:var(--ink-soft);background:#fff;transition:border-color .3s,color .3s;
 }
+/* Especialidades de um serviço que reúne várias frentes (Limpeza profissional).
+   Ocupa o lugar dos chips: são quatro itens com descrição, não rótulos soltos. */
+.svc-esp{list-style:none;margin-top:18px;display:grid;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;}
+.svc-esp li{background:#fff;padding:13px 15px;}
+.svc-esp b{display:block;font-size:14px;color:var(--ink);}
+.svc-esp span{display:block;font-size:13.5px;color:var(--ink-soft);margin-top:3px;line-height:1.5;}
+.svc-item:not(.on) .svc-esp{border-color:var(--line-soft);}
+
 .svc-item .link{
   display:inline-flex;align-items:center;gap:7px;margin-top:18px;font-size:14px;font-weight:600;
   color:var(--brand);opacity:0;max-height:0;overflow:hidden;transition:opacity .35s,max-height .35s;
