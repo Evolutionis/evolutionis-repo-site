@@ -14,13 +14,19 @@ const VH_POR_SEGUNDO = 33;
 
 export default function Servicos({ servicos, assetUrl }) {
   const itensRef = useRef([]);
+  // null para o serviço que ainda não tem cena gravada. O hook congela o vídeo
+  // nesses itens em vez de saltar para o segmento de outro.
   const segmentos = useMemo(
-    () => servicos.itens.map((s) => ({ a: s.a, b: s.b })),
+    () =>
+      servicos.itens.map((s) =>
+        Number.isFinite(s.a) && Number.isFinite(s.b) ? { a: s.a, b: s.b } : null
+      ),
     [servicos.itens]
   );
 
   const { videoRef, activeIndex, progress } = useVideoScrub(itensRef, segmentos);
   const atual = servicos.itens[activeIndex] || servicos.itens[0];
+  const atualTemVideo = Number.isFinite(atual.a) && Number.isFinite(atual.b);
   const total = String(servicos.itens.length).padStart(2, '0');
 
   return (
@@ -44,7 +50,13 @@ export default function Servicos({ servicos, assetUrl }) {
                 // isso, um serviço com trecho longo (a Limpeza profissional
                 // cobre 6,96s dos 10,4s do filme) correria o vídeo várias vezes
                 // mais rápido que os demais no mesmo tanto de rolagem.
-                style={{ minHeight: `${Math.max(56, (s.b - s.a) * VH_POR_SEGUNDO)}vh` }}
+                style={{
+                  minHeight: `${
+                    Number.isFinite(s.a) && Number.isFinite(s.b)
+                      ? Math.max(56, (s.b - s.a) * VH_POR_SEGUNDO)
+                      : 56
+                  }vh`,
+                }}
                 onClick={(e) =>
                   e.currentTarget.scrollIntoView({ behavior: 'smooth', block: 'center' })
                 }
@@ -91,7 +103,17 @@ export default function Servicos({ servicos, assetUrl }) {
               <source src={assetUrl('/servicos.mp4')} type="video/mp4" />
             </video>
 
-            <div className="stage-scrub"><i style={{ width: `${progress}%` }} /></div>
+            {/* Serviço ainda sem cena no filme: cobre o vídeo congelado, para
+                não parecer que a imagem é daquele serviço. */}
+            {!atualTemVideo && (
+              <div className="stage-sem-video">
+                <span className="mono">cena em produção</span>
+              </div>
+            )}
+
+            {atualTemVideo && (
+              <div className="stage-scrub"><i style={{ width: `${progress}%` }} /></div>
+            )}
             <div className="stage-foot">
               <b>{atual.titulo}</b>
               <span>{atual.legenda}</span>

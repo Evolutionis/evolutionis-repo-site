@@ -29,7 +29,11 @@ export function useVideoScrub(itemsRef, segments) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [progress, setProgress] = useState(0);
 
-  const total = segments.length ? segments[segments.length - 1].b : 1;
+  // Nem todo serviço tem cena no filme — um serviço novo entra antes de haver
+  // material gravado. A duração total vem do último segmento que existe, e não
+  // do último item da lista, que pode não ter nenhum.
+  const comVideo = segments.filter(Boolean);
+  const total = comVideo.length ? comVideo[comVideo.length - 1].b : 1;
 
   const applyTime = useCallback(() => {
     const v = videoRef.current;
@@ -68,8 +72,13 @@ export function useVideoScrub(itemsRef, segments) {
       p = 0;
     }
 
-    const seg = segments[idx] || segments[0];
     setActiveIndex(idx);
+
+    // Serviço sem cena: o vídeo congela onde estava em vez de saltar para o
+    // segmento de outro item. Quem cuida de esconder o painel é o componente.
+    const seg = segments[idx];
+    if (!seg) return;
+
     wantRef.current = seg.a + (seg.b - seg.a) * p;
     applyTime();
     setProgress((wantRef.current / total) * 100);
