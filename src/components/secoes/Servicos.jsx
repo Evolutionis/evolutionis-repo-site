@@ -7,6 +7,11 @@ import { useVideoScrub } from '../../hooks/useVideoScrub';
  * A lista de serviços rola normalmente; o painel à direita fica fixo e o quadro
  * exibido é definido pela posição do scroll dentro do serviço em foco.
  */
+// Quanto de rolagem (em vh) cada segundo de vídeo recebe. O valor vem do que a
+// seção já praticava: 56vh de altura mínima para o trecho de 1,708s do primeiro
+// serviço. Mantê-lo faz todos os itens correrem o filme na mesma velocidade.
+const VH_POR_SEGUNDO = 33;
+
 export default function Servicos({ servicos, assetUrl }) {
   const itensRef = useRef([]);
   const segmentos = useMemo(
@@ -35,6 +40,11 @@ export default function Servicos({ servicos, assetUrl }) {
                 ref={(el) => (itensRef.current[i] = el)}
                 className={`svc-item${i === activeIndex ? ' on' : ''}`}
                 data-svc={s.chave}
+                // A altura acompanha a duração do trecho de vídeo do item. Sem
+                // isso, um serviço com trecho longo (a Limpeza profissional
+                // cobre 6,96s dos 10,4s do filme) correria o vídeo várias vezes
+                // mais rápido que os demais no mesmo tanto de rolagem.
+                style={{ minHeight: `${Math.max(56, (s.b - s.a) * VH_POR_SEGUNDO)}vh` }}
                 onClick={(e) =>
                   e.currentTarget.scrollIntoView({ behavior: 'smooth', block: 'center' })
                 }
@@ -42,9 +52,20 @@ export default function Servicos({ servicos, assetUrl }) {
                 <span className="k">{s.num} · {s.titulo}</span>
                 <h3>{s.titulo}</h3>
                 <p>{s.desc}</p>
-                <div className="chips">
-                  {s.tags.map((t) => <span className="chip" key={t}>{t}</span>)}
-                </div>
+                {s.especialidades ? (
+                  <ul className="svc-esp">
+                    {s.especialidades.map((e) => (
+                      <li key={e.titulo}>
+                        <b>{e.titulo}</b>
+                        <span>{e.desc}</span>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <div className="chips">
+                    {s.tags.map((t) => <span className="chip" key={t}>{t}</span>)}
+                  </div>
+                )}
                 <a href="#contato" className="link" onClick={(e) => e.stopPropagation()}>
                   Solicitar orçamento →
                 </a>
