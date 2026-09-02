@@ -85,7 +85,7 @@ export const DEFAULTS = {
   // o currentTime do vídeo dentro dessa faixa. Se mudar o vídeo, ajuste aqui.
   servicos: {
     eyebrow: 'Serviços',
-    titulo: 'Três frentes, um único time.',
+    titulo: 'Quatro frentes, um único time.',
     texto:
       'A rolagem controla o vídeo ao lado: cada serviço que você percorre avança a cena correspondente, mostrando o time em campo.',
     itens: [
@@ -103,13 +103,30 @@ export const DEFAULTS = {
       {
         chave: 'dedetizacao',
         num: '02',
-        titulo: 'Dedetização e controle de pragas',
+        titulo: 'Dedetização',
         rotulo: 'Dedetização',
         legenda: 'Aplicação com equipamento de proteção',
-        desc: 'Inspeção, aplicação e monitoramento com procedimentos aprovados pela ANVISA. Dedetização, desratização e descupinização, com urgência 24h.',
-        tags: ['Dedetização', 'Desratização', 'Descupinização', 'Urgência 24h'],
+        desc: 'Inspeção, aplicação e monitoramento com produtos e procedimentos aprovados pela ANVISA, e atendimento de urgência em 24h.',
+        tags: ['Inspeção', 'Aplicação', 'Monitoramento', 'Urgência 24h'],
         a: 1.708,
         b: 3.458,
+      },
+      {
+        // Sem `a`/`b`: esta frente ainda não tem cena no filme. A seção trata o
+        // caso — o vídeo congela e o painel avisa, em vez de exibir a imagem de
+        // outro serviço.
+        //
+        // Fica logo depois da Dedetização por dois motivos: mantém as duas
+        // frentes de pragas juntas na lista, e o congelamento cai exatamente
+        // em 3,458s, que é onde a Limpeza profissional começa — então o filme
+        // segue contínuo para quem rola a página.
+        chave: 'pragas',
+        num: '03',
+        titulo: 'Controle de pragas',
+        rotulo: 'Controle de pragas',
+        legenda: 'Roedores, cupins e pragas urbanas',
+        desc: 'Desratização, descupinização e manejo de pragas urbanas, com a mesma inspeção prévia e o monitoramento posterior à aplicação.',
+        tags: ['Desratização', 'Descupinização', 'Pragas urbanas'],
       },
       {
         // Pós-obra, fachada, piso e caixa d'água eram quatro serviços separados.
@@ -120,7 +137,7 @@ export const DEFAULTS = {
         // contíguos (3,458 → 5,166 → 6,791 → 8,041 → 10,416), então o trecho
         // deste item é a soma exata deles.
         chave: 'limpeza',
-        num: '03',
+        num: '04',
         titulo: 'Limpeza profissional',
         rotulo: 'Limpeza profissional',
         legenda: 'Da entrega da obra à manutenção do dia a dia',
