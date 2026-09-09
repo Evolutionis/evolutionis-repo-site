@@ -191,6 +191,10 @@ export const DEFAULTS = {
     texto:
       'Contratos de manutenção contínua em três perfis de cliente, cada um com exigências próprias de rotina, horário e conformidade.',
     placeholder: true, // PLACEHOLDER — trocar por logos reais autorizados
+    // Cada item aceita `logo` (caminho vindo do upload do painel, ex.
+    // "/images/1757…-marca.png"). Com logo, a célula mostra a imagem; sem
+    // logo, mostra nome e setor em texto. Os itens abaixo são fictícios e por
+    // isso não têm logo — logotipo de terceiro só entra com autorização.
     itens: [
       { nome: 'Alto da Serra', setor: 'Condomínio' },
       { nome: 'Jardim das Flores', setor: 'Condomínio' },

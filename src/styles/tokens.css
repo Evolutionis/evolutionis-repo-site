@@ -392,6 +392,17 @@ section{padding:clamp(64px,9vw,116px) 0;position:relative;}
   letter-spacing:-.01em;transition:color .25s;
 }
 .logo-cell:hover .mk{color:var(--brand);}
+/* Célula com logotipo enviado pelo painel. O padding menor dá respiro à marca,
+   e o contain evita que um arquivo alto ou largo demais distorça ou estoure a
+   célula — os logos chegam do CMS em proporções que não controlamos. */
+.logo-cell.tem-logo{padding:22px 20px;}
+.logo-cell .logo-img{
+  max-width:100%;max-height:56px;width:auto;height:auto;object-fit:contain;
+  /* Marcas coloridas brigam entre si numa grade. O cinza uniformiza; a cor
+     volta ao passar o mouse. */
+  filter:grayscale(1);opacity:.72;transition:filter .25s,opacity .25s;
+}
+.logo-cell:hover .logo-img{filter:none;opacity:1;}
 .logo-cell .sg{font-family:'IBM Plex Mono';font-size:10px;color:var(--ink-faint);letter-spacing:.05em;text-transform:uppercase;}
 
 /* ============ diferenciais ============ */
