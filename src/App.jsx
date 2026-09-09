@@ -68,7 +68,7 @@ export default function App() {
         <Operacao operacao={content.operacao} />
         <Servicos servicos={content.servicos} assetUrl={assetUrl} />
         <Acompanhamento acompanhamento={content.acompanhamento} />
-        <Clientes clientes={content.clientes} />
+        <Clientes clientes={content.clientes} assetUrl={assetUrl} />
         <Diferenciais diferenciais={content.diferenciais} />
         <Depoimentos depoimentos={content.depoimentos} />
         <Contato contato={content.contato} />
