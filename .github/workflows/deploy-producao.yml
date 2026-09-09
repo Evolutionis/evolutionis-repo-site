@@ -17,10 +17,16 @@ on:
       - "vite.config.js"
   workflow_dispatch: # permite rodar manualmente pela aba Actions
 
+# Achado M5: sem este bloco o workflow herda a permissão padrão do
+# repositório, que pode ser de escrita. Nada aqui escreve no repositório.
+permissions:
+  contents: read
+
 jobs:
-  build-and-deploy:
+  # Igual ao de homologação: o build roda sem `environment`, então os scripts
+  # de instalação das dependências nunca veem as credenciais de FTP.
+  build:
     runs-on: ubuntu-latest
-    environment: producao
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -42,8 +48,32 @@ jobs:
         env:
           VITE_BASE: /
 
+      - name: Guardar o dist para o job de deploy
+        uses: actions/upload-artifact@v4
+        with:
+          name: site-producao
+          path: dist/
+          retention-days: 1
+          # O .htaccess dos cabeçalhos de segurança começa com ponto, e o
+          # padrão da action é ignorar arquivos ocultos.
+          include-hidden-files: true
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: producao
+    steps:
+      - name: Baixar o dist do job de build
+        uses: actions/download-artifact@v4
+        with:
+          name: site-producao
+          path: dist/
+
       - name: Deploy via FTP (Locaweb) - raiz
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        # Achado M5: fixado no SHA da v4.3.5. Uma tag pode ser reapontada por
+        # quem controla o repositório da action, e a versão nova receberia
+        # estas credenciais de FTP. O SHA não se move.
+        uses: SamKirkland/FTP-Deploy-Action@8e83cea8672e3fbcbb9fdafff34debf6ae4c5f65 # v4.3.5
         with:
           server: ${{ secrets.HOST }}
           username: ${{ secrets.USER }}
