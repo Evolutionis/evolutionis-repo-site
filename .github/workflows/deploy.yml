@@ -1,14 +1,9 @@
-# Homologação. Publica em public_html/preview/ a cada push no branch `homolog`.
-#
-# Antes este workflow rodava na `main`. Com os dois ambientes, `main` passou a
-# ser produção (deploy-producao.yml) e a homologação ganhou branch próprio —
-# senão não existe lugar para conferir antes de o cliente ver.
-name: Deploy homologacao (/preview) - build React + FTP Locaweb
+name: Deploy site (preview) - build React + FTP Locaweb
 
 on:
   push:
     branches:
-      - "homolog"
+      - "main"
     paths:
       - "public/content.json"
       - "public/images/**"
@@ -18,18 +13,10 @@ on:
       - "vite.config.js"
   workflow_dispatch: # permite rodar manualmente pela aba Actions
 
-# Achado M5: sem este bloco o workflow herda a permissão padrão do
-# repositório, que pode ser de escrita. Nada aqui escreve no repositório.
-permissions:
-  contents: read
-
 jobs:
-  # O build fica num job SEM `environment`, portanto sem acesso aos segredos de
-  # FTP. É a separação que importa: `npm ci` executa scripts de instalação de
-  # todas as dependências, e antes isso acontecia no mesmo job em que as
-  # credenciais estavam no ambiente.
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
+    environment: preview
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -46,32 +33,8 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Guardar o dist para o job de deploy
-        uses: actions/upload-artifact@v4
-        with:
-          name: site-homologacao
-          path: dist/
-          retention-days: 1
-          # O .htaccess dos cabeçalhos de segurança começa com ponto, e o
-          # padrão da action é ignorar arquivos ocultos.
-          include-hidden-files: true
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment: preview
-    steps:
-      - name: Baixar o dist do job de build
-        uses: actions/download-artifact@v4
-        with:
-          name: site-homologacao
-          path: dist/
-
       - name: Deploy via FTP (Locaweb) - subpasta /preview
-        # Achado M5: fixado no SHA da v4.3.5. Uma tag pode ser reapontada por
-        # quem controla o repositório da action, e a versão nova receberia
-        # estas credenciais de FTP. O SHA não se move.
-        uses: SamKirkland/FTP-Deploy-Action@8e83cea8672e3fbcbb9fdafff34debf6ae4c5f65 # v4.3.5
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.HOST }}
           username: ${{ secrets.USER }}
