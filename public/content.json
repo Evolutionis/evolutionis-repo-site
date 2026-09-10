@@ -2,5 +2,46 @@
   "identidade": {
     "corPrimaria": "#1E4E79",
     "corSecundaria": "#DDEAF6"
+  },
+  "clientes": {
+    "eyebrow": "Quem confia na Evolutionis",
+    "titulo": "Condomínios, empresas e indústrias da região.",
+    "texto": "Contratos de manutenção contínua em três perfis de cliente, cada um com exigências próprias de rotina, horário e conformidade.",
+    "placeholder": true,
+    "itens": [
+      {
+        "nome": "Alto da Serra",
+        "setor": "Condomínio",
+        "logo": "/images/1789008010806-whatsapp_image_2025-02-07_at_12.35.09-removebg-preview.png"
+      },
+      {
+        "nome": "Jardim das Flores",
+        "setor": "Condomínio"
+      },
+      {
+        "nome": "Grupo Mailasqui",
+        "setor": "Indústria"
+      },
+      {
+        "nome": "Vale Verde",
+        "setor": "Empresa"
+      },
+      {
+        "nome": "Portal do Sol",
+        "setor": "Condomínio"
+      },
+      {
+        "nome": "Metalúrgica SR",
+        "setor": "Indústria"
+      },
+      {
+        "nome": "Centro Empresarial",
+        "setor": "Empresa"
+      },
+      {
+        "nome": "Residencial Aurora",
+        "setor": "Condomínio"
+      }
+    ]
   }
 }
