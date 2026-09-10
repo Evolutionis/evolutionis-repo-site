@@ -384,7 +384,7 @@ section{padding:clamp(64px,9vw,116px) 0;position:relative;}
 @media(max-width:860px){.logo-grid{grid-template-columns:repeat(2,1fr);}}
 .logo-cell{
   background:#fff;padding:30px 20px;display:grid;place-items:center;text-align:center;gap:7px;
-  transition:background .25s;min-height:112px;
+  transition:background .25s;min-height:132px;
 }
 .logo-cell:hover{background:var(--paper-alt);}
 .logo-cell .mk{
@@ -392,12 +392,22 @@ section{padding:clamp(64px,9vw,116px) 0;position:relative;}
   letter-spacing:-.01em;transition:color .25s;
 }
 .logo-cell:hover .mk{color:var(--brand);}
-/* Célula com logotipo enviado pelo painel. O padding menor dá respiro à marca,
-   e o contain evita que um arquivo alto ou largo demais distorça ou estoure a
-   célula — os logos chegam do CMS em proporções que não controlamos. */
-.logo-cell.tem-logo{padding:22px 20px;}
+/* Célula com logotipo enviado pelo painel.
+   O logotipo ocupa toda a área útil da célula e o padding é a única folga —
+   sem ela a marca encosta na borda e nas células vizinhas.
+   Três decisões que parecem intercambiáveis e não são:
+   - `width:100%` em vez de `width:auto`: com auto a imagem para no tamanho
+     natural do arquivo e um logo pequeno fica minúsculo no meio do quadro,
+     porque `max-width` só reduz, nunca amplia.
+   - altura FIXA em vez de `height:100%`: com 100% a altura da imagem e a da
+     linha passam a depender uma da outra, e o navegador resolve o impasse pelo
+     tamanho natural do arquivo — um logo quadrado de 500px esticava a linha
+     inteira para 274px e espalhava o texto das outras células.
+   - `object-fit:contain`: os arquivos chegam do CMS em proporções que não
+     controlamos; sem ele um logo largo ou alto demais distorce. */
+.logo-cell.tem-logo{padding:16px;}
 .logo-cell .logo-img{
-  max-width:100%;max-height:56px;width:auto;height:auto;object-fit:contain;
+  width:100%;height:100px;object-fit:contain;
   /* Marcas coloridas brigam entre si numa grade. O cinza uniformiza; a cor
      volta ao passar o mouse. */
   filter:grayscale(1);opacity:.72;transition:filter .25s,opacity .25s;
