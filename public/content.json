@@ -84,12 +84,13 @@
       },
       {
         "nome": "Jardim das Flores",
-        "setor": "Condomínio"
+        "setor": "Condomínio",
+        "logo": "/images/pest-control-professional-service-safe-environment.jpg"
       },
       {
+        "logo": "/images/1789008010806-whatsapp_image_2025-02-07_at_12.35.09-removebg-preview.png",
         "nome": "Grupo Mailasqui",
-        "setor": "Indústria",
-        "logo": "/images/1789008010806-whatsapp_image_2025-02-07_at_12.35.09-removebg-preview.png"
+        "setor": "Indústria"
       },
       {
         "nome": "Vale Verde",
