@@ -264,7 +264,12 @@ export const DEFAULTS = {
     sobre:
       'Limpeza profissional, paisagismo e controle de pragas para condomínios, empresas e indústrias. Há mais de 20 anos em São Roque/SP.',
     textoDireitos: '© 2026 Evolutionis Serviços Ltda. Todos os direitos reservados.',
-    instagram: '', // PLACEHOLDER — URL do perfil
+    // O link do Instagram entra sem o "?stkn=..." que vem colado quando se
+    // copia o perfil pelo aplicativo: aquilo é um token da sessão de quem
+    // compartilhou, não faz parte do endereço do perfil, e não tem por que ir
+    // parar no rodapé de um site público.
+    instagram: 'https://www.instagram.com/evolutionis_servicos',
+    linkedin: 'https://www.linkedin.com/company/evolutionis-servico-ltda/',
     facebook: '', // PLACEHOLDER — URL do perfil
   },
 

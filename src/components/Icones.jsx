@@ -17,6 +17,11 @@ const PATHS = {
   check: <path d="m5 12 5 5L20 7" />,
   instagram: <><rect x="2" y="2" width="20" height="20" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" /></>,
   facebook: <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />,
+  // Mesma moldura do instagram (rect 20x20, rx 5) para os dois ficarem irmãos
+  // na fileira do rodapé. Dentro, o "in": ponto e haste do i, depois a haste e
+  // o arco do n. O ponto é o único traço preenchido — com contorno ele viraria
+  // um anel vazio no tamanho em que o ícone é usado (16px).
+  linkedin: <><rect x="2" y="2" width="20" height="20" rx="5" /><circle cx="7.5" cy="7.9" r="1" fill="currentColor" stroke="none" /><path d="M7.5 11v6" /><path d="M11.7 17v-6" /><path d="M11.7 13.6a2.55 2.55 0 0 1 5.1 0V17" /></>,
 };
 
 export function Icone({ nome, size = 22, strokeWidth }) {
