@@ -223,22 +223,38 @@ export const DEFAULTS = {
   depoimentos: {
     eyebrow: 'Depoimentos',
     titulo: 'O que dizem quem convive com o serviço.',
-    placeholder: true, // PLACEHOLDER — trocar por depoimentos reais coletados
+    // Depoimentos reais de clientes, fornecidos pela Evolutionis. Os três
+    // fictícios que estavam aqui saíram: a tarja de "conteúdo de exemplo"
+    // existia para ser removida quando chegassem os verdadeiros, e manter os
+    // dois tipos lado a lado publicaria elogio inventado como se fosse real.
+    placeholder: false,
+    // `cargo` vazio de propósito: veio o nome do cliente, não quem falou por
+    // ele. O componente omite a linha quando está em branco — preencher aqui
+    // com um cargo plausível seria inventar atribuição.
     itens: [
       {
-        texto: 'Trocamos três fornecedores por um só. O que mais pesou na assembleia foi conseguir mostrar o histórico de tudo que foi feito no mês, sem depender de relatório manual.',
-        nome: 'Marina R.',
-        cargo: 'Síndica · Condomínio Alto da Serra',
+        texto:
+          'A facilidade de acompanhar todos os atendimentos diretamente pelo aplicativo me proporciona muito mais segurança e transparência em relação aos serviços executados. Tenho, em tempo real, uma visão clara de tudo o que está sendo realizado, o que transmite ainda mais confiança no trabalho da Evolutionis Serviços.',
+        nome: 'Jaraguá Shopping',
+        cargo: '',
       },
       {
-        texto: 'O jardim da entrada era o nosso ponto fraco com clientes. Depois do projeto e da manutenção contínua, virou a primeira coisa que elogiam quando chegam.',
-        nome: 'Carlos A.',
-        cargo: 'Gerente administrativo · Centro Empresarial',
+        texto:
+          'A agilidade e a qualidade dos serviços prestados pela Evolutionis Serviços nos proporcionam a tranquilidade e a segurança de saber que tudo aquilo que foi contratado e prometido será realizado com excelência. É essa confiança no cumprimento dos compromissos que faz da Evolutionis Serviços uma parceira essencial para nós.',
+        nome: 'Polo Shopping',
+        cargo: '',
       },
       {
-        texto: 'Tivemos uma ocorrência de pragas num sábado à noite. A equipe chegou no mesmo dia e resolveu antes da segunda-feira, sem parar a produção.',
-        nome: 'Patrícia S.',
-        cargo: 'Coordenadora de facilities · Indústria',
+        texto:
+          'O atendimento personalizado da Evolutionis Serviços nos proporciona tanta confiança e tranquilidade que não sentimos necessidade de buscar novos parceiros. A empresa consegue suprir todas as nossas necessidades com excelência, agilidade e um atendimento diferenciado.',
+        nome: 'Flores de Lago',
+        cargo: '',
+      },
+      {
+        texto:
+          'A facilidade de acompanhar todos os atendimentos diretamente pelo aplicativo me proporciona muito mais segurança e transparência em relação aos serviços executados. Tenho, em tempo real, uma visão clara de tudo o que está sendo realizado, o que transmite ainda mais confiança no trabalho da Evolutionis Serviços.',
+        nome: 'Shopping Tivoli',
+        cargo: '',
       },
     ],
   },
