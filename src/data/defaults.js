@@ -190,6 +190,11 @@ export const DEFAULTS = {
     titulo: 'Condomínios, empresas e indústrias da região.',
     texto:
       'Contratos de manutenção contínua em três perfis de cliente, cada um com exigências próprias de rotina, horário e conformidade.',
+    // Continua true de propósito, mesmo com a tarja já fora do ar: os itens
+    // abaixo SÃO fictícios, e este bloco só entra em cena se a seção nunca
+    // tiver sido publicada. Baixar a bandeira aqui faria o site exibir nomes
+    // de cliente inventados sem nenhum aviso. Quem manda na página é o
+    // content.json, que traz os logotipos reais e o próprio placeholder false.
     placeholder: true, // PLACEHOLDER — trocar por logos reais autorizados
     // Cada item aceita `logo` (caminho vindo do upload do painel, ex.
     // "/images/1757…-marca.png"). Com logo, a célula mostra a imagem; sem
