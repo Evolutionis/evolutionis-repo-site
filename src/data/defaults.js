@@ -250,12 +250,10 @@ export const DEFAULTS = {
         nome: 'Flores de Lago',
         cargo: '',
       },
-      {
-        texto:
-          'A facilidade de acompanhar todos os atendimentos diretamente pelo aplicativo me proporciona muito mais segurança e transparência em relação aos serviços executados. Tenho, em tempo real, uma visão clara de tudo o que está sendo realizado, o que transmite ainda mais confiança no trabalho da Evolutionis Serviços.',
-        nome: 'Shopping Tivoli',
-        cargo: '',
-      },
+      // Havia um quarto, do Shopping Tivoli, com texto palavra por palavra
+      // igual ao do Jaraguá Shopping. Dois clientes dizendo exatamente a mesma
+      // frase, lado a lado na mesma seção, derrubam a credibilidade dos dois —
+      // ficou só o primeiro. Se o Tivoli mandar o texto dele, entra aqui.
     ],
   },
 
