@@ -244,7 +244,7 @@
   "depoimentos": {
     "eyebrow": "Depoimentos",
     "titulo": "O que dizem quem convive com o serviço.",
-    "placeholder": true,
+    "placeholder": false,
     "itens": [
       {
         "nome": "Marina R.",
