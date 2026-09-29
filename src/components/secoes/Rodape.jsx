@@ -7,6 +7,7 @@ export default function Rodape({ rodape, contato, logo }) {
   // "javascript:..." publicado pelo painel executaria no clique do visitante.
   const redes = [
     { url: rodape.instagram, nome: 'Instagram', icone: 'instagram' },
+    { url: rodape.linkedin, nome: 'LinkedIn', icone: 'linkedin' },
     { url: rodape.facebook, nome: 'Facebook', icone: 'facebook' },
   ].filter((r) => isHttpsUrl(r.url));
 

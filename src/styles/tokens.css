@@ -506,6 +506,10 @@ footer ul a:hover{color:#fff;}
 .ft-social{display:flex;gap:9px;margin-top:16px;}
 .ft-social a{
   width:34px;height:34px;border-radius:9px;border:1px solid #2A3846;display:grid;place-items:center;
+  /* Branco, e não o #94A6B6 que o rodapé dá ao texto: são marcas de terceiros
+     numa fileira pequena, e o cinza as deixava com cara de item desativado.
+     17,6:1 contra o fundo #0F1A24, contra 7:1 da cor herdada. */
+  color:#fff;
   transition:border-color .2s,background .2s;
 }
 .ft-social a:hover{border-color:#4A6072;background:#1A2530;}
