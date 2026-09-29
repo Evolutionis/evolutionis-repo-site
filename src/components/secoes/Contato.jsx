@@ -77,7 +77,13 @@ export default function Contato({ contato }) {
               <p>{contato.urgenciaTexto}</p>
             </div>
 
-            {isGoogleMapsUrl(contato.mapaEmbed) ? (
+            {/* Sem URL de mapa válida, a seção simplesmente não mostra mapa.
+                Antes entrava uma caixa tracejada com "[ mapa do Google Maps
+                entra aqui ]" — útil enquanto o site estava sendo montado,
+                mas é recado para quem edita, e estava aparecendo para o
+                visitante. Assim que o campo do painel receber a URL de
+                incorporação, o iframe abaixo volta sozinho. */}
+            {isGoogleMapsUrl(contato.mapaEmbed) && (
               <iframe
                 className="mapa"
                 src={contato.mapaEmbed}
@@ -89,10 +95,6 @@ export default function Contato({ contato }) {
                 // permite ao quadro sair do sandbox e alcançar a página.
                 sandbox="allow-scripts allow-popups"
               />
-            ) : (
-              <div className="mapa-vazio">
-                <span className="mono">[ mapa do Google Maps entra aqui ]</span>
-              </div>
             )}
           </div>
 
