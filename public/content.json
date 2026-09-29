@@ -54,6 +54,7 @@
   "rodape": {
     "sobre": "Limpeza profissional, paisagismo e controle de pragas para condomínios, empresas e indústrias. Há mais de 20 anos em São Roque/SP.",
     "facebook": "",
+    "linkedin": "https://www.linkedin.com/company/evolutionis-servico-ltda/",
     "instagram": "",
     "textoDireitos": "© 2026 Evolutionis Serviços Ltda. Todos os direitos reservados."
   },
@@ -74,39 +75,24 @@
   "clientes": {
     "itens": [
       {
-        "logo": "/images/corporate-landscaping-garden-maintenance-green-spa.jpg",
-        "nome": "Alto da Serra",
-        "setor": "Condomínio"
+        "logo": "/images/1789056887653-img_2216.png",
+        "nome": "Verzani Sandrini",
+        "setor": "Empresa de limpeza"
       },
       {
-        "logo": "/images/pest-control-professional-service-safe-environment.jpg",
-        "nome": "Jardim das Flores",
-        "setor": "Condomínio"
+        "logo": "/images/1789056941308-img_2215.png",
+        "nome": "Tivoli Shopping",
+        "setor": "Shopping"
       },
       {
-        "logo": "/images/1789008010806-whatsapp_image_2025-02-07_at_12.35.09-removebg-preview.png",
-        "nome": "Grupo Mailasqui",
-        "setor": "Indústria"
+        "logo": "/images/1789058152223-img_2214.png",
+        "nome": "Jaragua Shopping",
+        "setor": "Shopping"
       },
       {
-        "nome": "Vale Verde",
-        "setor": "Empresa"
-      },
-      {
-        "nome": "Portal do Sol",
-        "setor": "Condomínio"
-      },
-      {
-        "nome": "Metalúrgica SR",
-        "setor": "Indústria"
-      },
-      {
-        "nome": "Centro Empresarial",
-        "setor": "Empresa"
-      },
-      {
-        "nome": "Residencial Aurora",
-        "setor": "Condomínio"
+        "logo": "/images/1789058168066-img_2213.jpeg",
+        "nome": "Polo Shopping",
+        "setor": "Shopping"
       }
     ],
     "texto": "Contratos de manutenção contínua em três perfis de cliente, cada um com exigências próprias de rotina, horário e conformidade.",
@@ -252,25 +238,25 @@
   "identidade": {
     "logo": "/logo.png",
     "logoRodape": "/logo-claro.png",
-    "corPrimaria": "#b1dd8c",
+    "corPrimaria": "#203957",
     "corSecundaria": "#DDEAF6"
   },
   "depoimentos": {
     "itens": [
       {
-        "nome": "Marina R.",
-        "cargo": "Síndica · Condomínio Alto da Serra",
-        "texto": "Trocamos três fornecedores por um só. O que mais pesou na assembleia foi conseguir mostrar o histórico de tudo que foi feito no mês, sem depender de relatório manual."
+        "nome": "Tivolli Shopping",
+        "cargo": "Shopping",
+        "texto": "A facilidade de acompanhar todos os atendimentos diretamente pelo aplicativo me proporciona muito mais segurança e transparência em relação aos serviços executados. Tenho, em tempo real, uma visão clara de tudo o que está sendo realizado, o que transmite ainda mais confiança no trabalho da Evolutionis Serviços."
       },
       {
-        "nome": "Carlos A.",
-        "cargo": "Gerente administrativo · Centro Empresarial",
-        "texto": "O jardim da entrada era o nosso ponto fraco com clientes. Depois do projeto e da manutenção contínua, virou a primeira coisa que elogiam quando chegam."
+        "nome": "Polo Shopping",
+        "cargo": "Shopping",
+        "texto": "A agilidade e a qualidade dos serviços prestados pela Evolution Serviços nos proporcionam a tranquilidade e a segurança de saber que tudo aquilo que foi contratado e prometido será realizado com excelência. É essa confiança no cumprimento dos compromissos que faz da Evolutionis Serviços uma parceira essencial para nós."
       },
       {
-        "nome": "Patrícia S.",
-        "cargo": "Coordenadora de facilities · Indústria",
-        "texto": "Tivemos uma ocorrência de pragas num sábado à noite. A equipe chegou no mesmo dia e resolveu antes da segunda-feira, sem parar a produção."
+        "nome": "Jaragua Shopping",
+        "cargo": "Shopping",
+        "texto": "O atendimento personalizado da Evolutionis Serviços nos proporciona tanta confiança e tranquilidade que não sentimos necessidade de buscar novos parceiros. A empresa consegue suprir todas as nossas necessidades com excelência, agilidade e um atendimento diferenciado."
       }
     ],
     "titulo": "O que dizem quem convive com o serviço.",
