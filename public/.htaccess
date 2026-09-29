@@ -36,3 +36,38 @@
   # "expr=..." aqui é fácil de escrever errado e derruba o site com 500.
   Header always set Strict-Transport-Security "max-age=15768000" env=HTTPS
 </IfModule>
+
+# ---------------------------------------------------------------------------
+# Vídeo da seção de serviços — o que ele exige do servidor.
+#
+# A rolagem controla o tempo do filme (src/hooks/useVideoScrub.js), e isso só
+# funciona se o servidor responder a requisições de INTERVALO (HTTP Range).
+# Sem Range, `video.seekable` fica vazio, o vídeo trava no primeiro quadro e
+# NENHUM erro aparece no console — a falha é silenciosa, e é por isso que ela
+# merece configuração explícita em vez de confiar no padrão da hospedagem.
+
+<IfModule mod_mime.c>
+  # Hospedagem compartilhada nem sempre conhece webm. Servido com o tipo
+  # errado, o navegador descarta a fonte — e, se o mp4 também vier torto, a
+  # seção fica sem vídeo nenhum.
+  AddType video/mp4 .mp4
+  AddType video/webm .webm
+</IfModule>
+
+<IfModule mod_deflate.c>
+  # A causa mais comum de Range quebrado em Apache: quando o mod_deflate
+  # comprime a resposta na hora, o servidor deixa de conseguir servir um
+  # intervalo de bytes e responde 200 com o arquivo inteiro, em vez de 206.
+  # Vídeo já é um formato comprimido — passar gzip nele não economiza nada e
+  # ainda derruba o scrub. Aqui a compressão é desligada só para os vídeos.
+  SetEnvIfNoCase Request_URI \.(?:mp4|webm)$ no-gzip dont-vary
+</IfModule>
+
+<IfModule mod_headers.c>
+  # Anuncia o suporte a intervalo. Alguns proxies só emitem requisição de
+  # Range depois de ver este cabeçalho na primeira resposta.
+  <FilesMatch "\.(mp4|webm)$">
+    Header always set Accept-Ranges "bytes"
+  </FilesMatch>
+</IfModule>
+
