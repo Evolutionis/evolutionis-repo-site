@@ -9,7 +9,7 @@ import { DEFAULTS } from '../data/defaults';
  * em branco quando o usuário ainda não preencheu — sem essa guarda, publicar
  * pela primeira vez apagaria seções inteiras do site.
  */
-function merge(base, over) {
+export function merge(base, over) {
   if (over === null || over === undefined) return base;
   if (Array.isArray(base)) return Array.isArray(over) && over.length ? over : base;
   if (typeof base === 'object' && typeof over === 'object') {
@@ -30,8 +30,14 @@ function assetUrl(path) {
   return base + (path.startsWith('/') ? path : '/' + path);
 }
 
-export function useContent() {
-  const [content, setContent] = useState(DEFAULTS);
+/**
+ * `inicial` é o conteúdo que o prerender usou para gerar o HTML (vem embutido
+ * na página). Começar dele é o que permite o hydrateRoot: o primeiro render no
+ * navegador precisa ser idêntico ao HTML do build. Sem prerender (npm run dev),
+ * começa do padrão, como antes.
+ */
+export function useContent(inicial) {
+  const [content, setContent] = useState(inicial || DEFAULTS);
 
   useEffect(() => {
     let alive = true;

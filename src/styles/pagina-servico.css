@@ -1,0 +1,31 @@
+/* Páginas de serviço. Reaproveita shell, sec-head, eyebrow, btn e chip de
+   tokens.css; aqui só o que é próprio do layout da página. */
+
+.pg-hero{padding-top:clamp(120px,14vw,168px);background:var(--paper-alt);}
+.pg-hero h1{font-size:clamp(32px,5vw,54px);margin-top:16px;max-width:22ch;}
+.pg-lead{color:var(--ink-soft);font-size:clamp(16px,1.8vw,19px);margin-top:18px;max-width:62ch;}
+.pg-cta{margin-top:28px;display:flex;gap:12px;flex-wrap:wrap;}
+
+.pg-trilha{font-size:13px;color:var(--ink-faint);margin-bottom:22px;}
+.pg-trilha a{color:var(--ink-soft);text-decoration:none;}
+.pg-trilha a:hover{text-decoration:underline;}
+
+.pg-alt{background:var(--paper-alt);}
+
+.pg-grid{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));}
+.pg-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:22px;}
+.pg-card h3{font-size:19px;}
+.pg-card p{color:var(--ink-soft);margin-top:10px;}
+
+.pg-etapas{list-style:none;counter-reset:etapa;display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));}
+.pg-etapas li{counter-increment:etapa;background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:22px;}
+.pg-etapas li::before{content:counter(etapa,decimal-leading-zero);font-family:'IBM Plex Mono',monospace;color:var(--brand);font-size:13px;}
+.pg-etapas h3{font-size:18px;margin-top:8px;}
+.pg-etapas p{color:var(--ink-soft);margin-top:8px;}
+
+.pg-cidades{list-style:none;display:flex;flex-wrap:wrap;gap:10px;}
+
+.pg-faq{max-width:780px;display:grid;gap:10px;}
+.pg-faq details{border:1px solid var(--line);border-radius:var(--r);padding:16px 20px;background:var(--paper);}
+.pg-faq summary{cursor:pointer;font-weight:600;}
+.pg-faq details p{color:var(--ink-soft);margin-top:10px;}
