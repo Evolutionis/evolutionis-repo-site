@@ -29,6 +29,23 @@ const attr = (s) => String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').rep
 // do CMS feche o bloco e vire HTML.
 const jsonSeguro = (o) => JSON.stringify(o).replace(/</g, '\\u003c');
 
+/**
+ * Troca o <link rel="stylesheet"> do CSS do site por <style> com o conteúdo.
+ * O CSS tem ~6 KB comprimido e era a última solicitação bloqueando a
+ * renderização (390 ms no PageSpeed): embutido, o texto pinta com o HTML.
+ * A CSP já permite estilo embutido (style-src 'unsafe-inline').
+ */
+async function embutirCss(html) {
+  const re = /<link rel="stylesheet"[^>]*href="([^"]+\.css)"[^>]*>/g;
+  let saida = html;
+  for (const [tag, href] of html.matchAll(re)) {
+    if (!href.startsWith(base)) continue; // só o CSS do próprio site
+    const css = await readFile(resolve(dist, href.slice(base.length)), 'utf8');
+    saida = saida.replace(tag, () => `<style>${css}</style>`);
+  }
+  return saida;
+}
+
 function trocar(html, de, para, rotulo) {
   if (!de.test(html)) throw new Error(`prerender: não achei ${rotulo} no index.html`);
   return html.replace(de, para);
@@ -100,10 +117,11 @@ for (const pagina of PAGINAS) {
   let html = trocar(
     template,
     /<div id="root"><\/div>/,
-    `<div id="root">${corpo}</div>\n  <script id="conteudo-inicial" type="application/json">${jsonSeguro(conteudo)}</script>`,
+    () => `<div id="root">${corpo}</div>\n  <script id="conteudo-inicial" type="application/json">${jsonSeguro(conteudo)}</script>`,
     '<div id="root"></div>'
   );
   if (pagina.tipo !== 'home') html = headPagina(html, pagina);
+  html = await embutirCss(html);
 
   const destino = resolve(dist, pagina.caminho, 'index.html');
   await mkdir(dirname(destino), { recursive: true });

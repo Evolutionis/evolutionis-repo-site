@@ -4,6 +4,9 @@ import { regioes, etapas, faqPendente } from './comum';
 
 export const limpezaPosObra = {
   caminho: 'servicos/limpeza-pos-obra/',
+  // false até o conteúdo ser aprovado pela empresa: a página aparece na
+  // homologação, mas não é gerada nem linkada em produção (ver src/paginas.js).
+  publicada: false,
   chave: 'posobra',
   seo: {
     titulo: 'Limpeza Pós-Obra para Condomínios, Empresas e Indústrias | Evolutionis',

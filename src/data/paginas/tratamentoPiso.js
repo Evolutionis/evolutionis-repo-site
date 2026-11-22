@@ -4,6 +4,9 @@ import { regioes, etapas, faqPendente } from './comum';
 
 export const tratamentoPiso = {
   caminho: 'servicos/tratamento-de-piso/',
+  // false até o conteúdo ser aprovado pela empresa: a página aparece na
+  // homologação, mas não é gerada nem linkada em produção (ver src/paginas.js).
+  publicada: false,
   chave: 'piso',
   seo: {
     titulo: 'Tratamento de Piso: Lavagem, Cristalização e Impermeabilização | Evolutionis',
