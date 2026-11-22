@@ -2,14 +2,28 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
 
+const base = process.env.VITE_BASE || '/preview/';
+
+// A homologação é uma cópia do site. O robots.txt impede o rastreamento de
+// /preview/, mas não a indexação se alguém linkar para lá; o meta robots
+// impede. Decide pela mesma variável que separa os ambientes (VITE_BASE).
+const robotsHomologacao = {
+  name: 'robots-homologacao',
+  transformIndexHtml() {
+    if (base === '/') return [];
+    return [{ tag: 'meta', attrs: { name: 'robots', content: 'noindex, nofollow' }, injectTo: 'head' }];
+  },
+};
+
 export default defineConfig({
   // Onde o site vive no servidor. Homologação fica em /preview/ e produção na
   // raiz, e o caminho entra nos assets no momento do build — não dá para
   // decidir depois. O workflow de produção define VITE_BASE=/ ; sem a
   // variável, continua sendo /preview/, que é o comportamento de sempre.
-  base: process.env.VITE_BASE || '/preview/',
+  base,
   plugins: [
     react(),
+    robotsHomologacao,
     VitePWA({
       registerType: 'prompt',
       includeAssets: ['favicon-32.png', 'apple-touch-icon.png', 'logo.png'],
