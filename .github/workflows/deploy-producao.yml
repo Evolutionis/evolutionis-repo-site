@@ -9,8 +9,9 @@ on:
     branches:
       - "main"
     paths:
-      - "public/content.json"
-      - "public/images/**"
+      # public/** inteiro: robots.txt, sitemap.xml, .htaccess e analytics-init.js
+      # vivem ali, e listar arquivo por arquivo já deixou mudança sem publicar.
+      - "public/**"
       - "src/**"
       - "index.html"
       - "package.json"

@@ -1,6 +1,7 @@
 import { Icone } from '../Icones';
 import { isHttpsUrl } from '../../lib/sanitize';
 import { whatsappContactTemplate, whatsappLink } from '../../lib/whatsapp';
+import { track } from '../../lib/analytics';
 
 export default function Rodape({ rodape, contato, logo }) {
   // Um perfil que não seja https: não vira link. Sem o filtro, um valor como
@@ -44,8 +45,10 @@ export default function Rodape({ rodape, contato, logo }) {
           <div>
             <h5>Contato</h5>
             <ul>
-              <li><a href={whatsappLink(contato.whatsapp, whatsappContactTemplate())} target="_blank" rel="noopener">{contato.whatsappVisivel}</a></li>
-              <li><a href={`mailto:${contato.email}`}>{contato.email}</a></li>
+              <li><a href={whatsappLink(contato.whatsapp, whatsappContactTemplate())} target="_blank" rel="noopener"
+                     onClick={() => track('clique_whatsapp', { local: 'rodape' })}>{contato.whatsappVisivel}</a></li>
+              <li><a href={`mailto:${contato.email}`}
+                     onClick={() => track('clique_email', { local: 'rodape' })}>{contato.email}</a></li>
               <li><a href="#contato">{contato.endereco} — {contato.bairro}</a></li>
               <li><a href="#contato">{contato.horario}</a></li>
             </ul>
