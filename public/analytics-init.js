@@ -20,4 +20,7 @@ gtag('js', new Date());
 // nada. Para medir a homologação também, apague o `if`.
 if (!/^\/preview(\/|$)/.test(window.location.pathname)) {
   gtag('config', 'G-LWMTQL9KPM');
+  // src/lib/analytics.js só registra eventos (generate_lead, cliques de contato)
+  // quando isto está ligado — assim a regra "medir ou não" fica num lugar só.
+  window.__medirAnalytics = true;
 }

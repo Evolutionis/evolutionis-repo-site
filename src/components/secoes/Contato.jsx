@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Icone } from '../Icones';
 import { isGoogleMapsUrl } from '../../lib/sanitize';
+import { track } from '../../lib/analytics';
 import {
   whatsappContactTemplate,
   whatsappLink,
@@ -26,6 +27,16 @@ export default function Contato({ contato }) {
       servico: f.get('servico'),
       mensagem: f.get('mensagem'),
     });
+    // O lead é registrado ANTES de abrir o WhatsApp. Só tipo de local e serviço
+    // vão para o GA4: nome, telefone, e-mail e mensagem são dado pessoal, e o
+    // Google proíbe enviá-los. (Ambos são <select> de opções fixas.)
+    // Limite do que isto mede: quem ABRIU o WhatsApp com a mensagem pronta. Se
+    // a pessoa desistir de enviar lá dentro, o GA4 não fica sabendo.
+    track('generate_lead', {
+      form: 'contato',
+      tipo_local: f.get('local'),
+      servico: f.get('servico'),
+    });
     window.open(whatsappLink(contato.whatsapp, msg), '_blank', 'noopener');
     setEnviando(false);
   }
@@ -42,14 +53,16 @@ export default function Contato({ contato }) {
         <div className="ct-grid">
           <div className="rv">
             <div className="ct-card">
-              <a className="ct-row" href={whatsappLink(contato.whatsapp, whatsappContactTemplate())} target="_blank" rel="noopener">
+              <a className="ct-row" href={whatsappLink(contato.whatsapp, whatsappContactTemplate())} target="_blank" rel="noopener"
+                 onClick={() => track('clique_whatsapp', { local: 'contato' })}>
                 <span className="ic"><Icone nome="telefone" size={17} /></span>
                 <span>
                   <span className="lb">WhatsApp · resposta mais rápida</span>
                   <span className="vl">{contato.whatsappVisivel}</span>
                 </span>
               </a>
-              <a className="ct-row" href={`mailto:${contato.email}`}>
+              <a className="ct-row" href={`mailto:${contato.email}`}
+                 onClick={() => track('clique_email', { local: 'contato' })}>
                 <span className="ic"><Icone nome="email" size={17} /></span>
                 <span>
                   <span className="lb">E-mail</span>
