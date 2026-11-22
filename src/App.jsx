@@ -20,8 +20,8 @@ import AvisoAtualizacao from './components/AvisoAtualizacao';
 
 const IDS = ['inicio', 'operacao', 'servicos', 'acompanhe', 'clientes', 'diferenciais', 'depoimentos', 'contato'];
 
-export default function App() {
-  const { content, assetUrl } = useContent();
+export default function App({ inicial }) {
+  const { content, assetUrl } = useContent(inicial);
   const { stuck, showWa } = useScrollUi();
   const barraRef = useProgressBar();
   const ids = useMemo(() => IDS, []);

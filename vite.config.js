@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import { fileURLToPath } from 'node:url';
 import { VitePWA } from 'vite-plugin-pwa';
 
 const base = process.env.VITE_BASE || '/preview/';
@@ -15,16 +16,21 @@ const robotsHomologacao = {
   },
 };
 
-export default defineConfig({
+export default defineConfig(({ isSsrBuild }) => ({
   // Onde o site vive no servidor. Homologação fica em /preview/ e produção na
   // raiz, e o caminho entra nos assets no momento do build — não dá para
   // decidir depois. O workflow de produção define VITE_BASE=/ ; sem a
   // variável, continua sendo /preview/, que é o comportamento de sempre.
   base,
+  // Build SSR (só para o prerender): sem PWA — service worker é coisa do
+  // navegador — e com o registro do SW trocado por um módulo vazio.
+  resolve: isSsrBuild
+    ? { alias: { 'virtual:pwa-register/react': fileURLToPath(new URL('./src/lib/pwa-register-ssr.js', import.meta.url)) } }
+    : undefined,
   plugins: [
     react(),
-    robotsHomologacao,
-    VitePWA({
+    !isSsrBuild && robotsHomologacao,
+    !isSsrBuild && VitePWA({
       registerType: 'prompt',
       includeAssets: ['favicon-32.png', 'apple-touch-icon.png', 'logo.png'],
       manifest: {
@@ -57,7 +63,13 @@ export default defineConfig({
         // sob demanda, e uma faltando só quebra a si mesma.
         globPatterns: ['**/*.{js,css,html,png,jpg,svg,woff2}'],
         globIgnores: ['**/servicos.*', '**/images/**'],
-        navigateFallback: 'index.html',
+        // Sem navigateFallback: com ele, o service worker respondia QUALQUER
+        // navegação com a home — inclusive /robots.txt e /sitemap.xml para quem
+        // já tinha visitado o site (e, no futuro, as páginas de serviço). A
+        // home segue no precache e abre offline como antes.
+        // `null` explícito: omitir não basta, o vite-plugin-pwa assume
+        // 'index.html' como padrão.
+        navigateFallback: null,
         runtimeCaching: [
           {
             // REGRA CRÍTICA. O content.json é o que o CMS publica: se ele entrar
@@ -105,7 +117,9 @@ export default defineConfig({
       devOptions: { enabled: false },
     }),
   ],
-  build: {
+  // No build SSR, os nomes com hash não servem: o prerender importa
+  // dist-ssr/entry-server.js por nome fixo.
+  build: isSsrBuild ? {} : {
     assetsDir: 'assets',
     rollupOptions: {
       output: {
@@ -115,4 +129,4 @@ export default defineConfig({
       },
     },
   },
-});
+}));
