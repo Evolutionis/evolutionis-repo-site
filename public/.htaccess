@@ -1,3 +1,14 @@
+# Endereço oficial: https://evolutionis.com.br (sem www).
+# O Google já indexou esta versão; www e http redirecionam (301) para ela, senão
+# os dois endereços viram conteúdo duplicado dividindo a força no Google.
+# Depende de a Locaweb respeitar .htaccess — conferir com curl -I após o deploy.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTP_HOST} ^www\. [NC,OR]
+  RewriteCond %{HTTPS} off
+  RewriteRule ^ https://evolutionis.com.br%{REQUEST_URI} [L,R=301]
+</IfModule>
+
 # Cabeçalhos de segurança — achado M4.
 #
 # Este arquivo fica em public/, então o Vite o copia para dist/ no build e ele
