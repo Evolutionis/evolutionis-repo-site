@@ -8,7 +8,7 @@ import {
   whatsappQuoteTemplate,
 } from '../../lib/whatsapp';
 
-export default function Contato({ contato }) {
+export default function Contato({ contato, servicoPadrao = 'Limpeza profissional' }) {
   const [enviando, setEnviando] = useState(false);
 
   // O site é estático (build do Vite), então não há backend para receber o POST.
@@ -137,7 +137,7 @@ export default function Contato({ contato }) {
                 </div>
                 <div className="fr">
                   <label htmlFor="servico">Serviço</label>
-                  <select id="servico" name="servico" defaultValue="Limpeza profissional">
+                  <select id="servico" name="servico" defaultValue={servicoPadrao}>
                     <option>Limpeza profissional</option><option>Paisagismo</option>
                     <option>Controle de pragas</option><option>Mais de um serviço</option>
                   </select>

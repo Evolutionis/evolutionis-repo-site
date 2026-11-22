@@ -2,6 +2,7 @@ import { Icone } from '../Icones';
 import { isHttpsUrl } from '../../lib/sanitize';
 import { whatsappContactTemplate, whatsappLink } from '../../lib/whatsapp';
 import { track } from '../../lib/analytics';
+import { href, PAGINAS } from '../../paginas';
 
 export default function Rodape({ rodape, contato, logo }) {
   // Um perfil que não seja https: não vira link. Sem o filtro, um valor como
@@ -35,9 +36,9 @@ export default function Rodape({ rodape, contato, logo }) {
           <div>
             <h5>Serviços</h5>
             <ul>
-              <li><a href="#servicos">Limpeza profissional</a></li>
-              <li><a href="#servicos">Paisagismo</a></li>
-              <li><a href="#servicos">Controle de pragas</a></li>
+              <li><a href={`${href()}#servicos`}>Limpeza profissional</a></li>
+              <li><a href={`${href()}#servicos`}>Paisagismo</a></li>
+              <li><a href={href(PAGINAS.find((p) => p.dados?.chave === 'dedetizacao').caminho)}>Controle de pragas</a></li>
               <li><a href="#acompanhe">Portal do cliente</a></li>
             </ul>
           </div>

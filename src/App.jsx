@@ -2,7 +2,7 @@ import { useEffect, useMemo } from 'react';
 import { useContent } from './hooks/useContent';
 import { useScrollUi, useProgressBar, useActiveSection, useHiddenNear, useReveal } from './hooks/useScrollUi';
 import { aplicarSeo } from './seo';
-import { isValidHexColor } from './lib/sanitize';
+import { useCoresMarca } from './hooks/useCoresMarca';
 
 import Nav from './components/secoes/Nav';
 import ScrollRail from './components/secoes/ScrollRail';
@@ -20,8 +20,8 @@ import AvisoAtualizacao from './components/AvisoAtualizacao';
 
 const IDS = ['inicio', 'operacao', 'servicos', 'acompanhe', 'clientes', 'diferenciais', 'depoimentos', 'contato'];
 
-export default function App() {
-  const { content, assetUrl } = useContent();
+export default function App({ inicial }) {
+  const { content, assetUrl } = useContent(inicial);
   const { stuck, showWa } = useScrollUi();
   const barraRef = useProgressBar();
   const ids = useMemo(() => IDS, []);
@@ -32,22 +32,7 @@ export default function App() {
   // re-varre quando o conteúdo do CMS chega; nunca a cada render
   useReveal([content]);
 
-  // As duas cores da marca vêm do CMS e entram como variáveis CSS, para o
-  // painel poder ajustar a identidade sem novo deploy do código.
-  //
-  // Só entra hexadecimal de 6 dígitos: o valor vai para o CSSOM, e um texto
-  // como "red; } body { display:none" seria interpretado como regra, não como
-  // cor. Valor recusado significa manter o padrão já definido em tokens.css —
-  // a marca fica correta em vez de sumir.
-  useEffect(() => {
-    const r = document.documentElement;
-    const { corPrimaria, corSecundaria } = content.identidade;
-    if (isValidHexColor(corPrimaria)) {
-      r.style.setProperty('--brand', corPrimaria);
-      r.style.setProperty('--accent', corPrimaria);
-    }
-    if (isValidHexColor(corSecundaria)) r.style.setProperty('--tint', corSecundaria);
-  }, [content.identidade]);
+  useCoresMarca(content.identidade);
 
   useEffect(() => {
     aplicarSeo(content, assetUrl);
