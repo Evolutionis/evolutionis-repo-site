@@ -13,6 +13,7 @@ on:
       - "public/images/**"
       - "src/**"
       - "index.html"
+      - "public/analytics-init.js"
       - "package.json"
       - "vite.config.js"
   workflow_dispatch: # permite rodar manualmente pela aba Actions
