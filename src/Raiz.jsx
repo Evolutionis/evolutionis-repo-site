@@ -1,5 +1,6 @@
 import App from './App';
 import PaginaServico from './components/PaginaServico';
+import PaginaListaServicos from './components/PaginaListaServicos';
 import { paginaPorPathname } from './paginas';
 
 /**
@@ -10,5 +11,6 @@ import { paginaPorPathname } from './paginas';
 export default function Raiz({ pathname, inicial }) {
   const pagina = paginaPorPathname(pathname);
   if (pagina.tipo === 'servico') return <PaginaServico pagina={pagina} inicial={inicial} />;
+  if (pagina.tipo === 'lista') return <PaginaListaServicos pagina={pagina} inicial={inicial} />;
   return <App inicial={inicial} />;
 }

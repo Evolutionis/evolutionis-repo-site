@@ -8,7 +8,12 @@ import {
   whatsappQuoteTemplate,
 } from '../../lib/whatsapp';
 
-export default function Contato({ contato, servicoPadrao = 'Limpeza profissional' }) {
+// `servicos` é o mesmo content.json → servicos.itens da home: a lista do
+// formulário acompanha o painel e nunca mais fica sem um serviço que o site
+// oferece. `servicoPadrao` vem preenchido nas páginas de serviço; na home fica
+// vazio e a pessoa escolhe (antes vinha "Limpeza profissional" marcado, e quem
+// não mexia no campo virava lead de limpeza no GA4).
+export default function Contato({ contato, servicos, servicoPadrao = '' }) {
   const [enviando, setEnviando] = useState(false);
 
   // O site é estático (build do Vite), então não há backend para receber o POST.
@@ -137,9 +142,10 @@ export default function Contato({ contato, servicoPadrao = 'Limpeza profissional
                 </div>
                 <div className="fr">
                   <label htmlFor="servico">Serviço</label>
-                  <select id="servico" name="servico" defaultValue={servicoPadrao}>
-                    <option>Limpeza profissional</option><option>Paisagismo</option>
-                    <option>Controle de pragas</option><option>Mais de um serviço</option>
+                  <select id="servico" name="servico" defaultValue={servicoPadrao} required>
+                    <option value="" disabled>Selecione o serviço</option>
+                    {servicos.itens.map((s) => <option key={s.chave}>{s.titulo}</option>)}
+                    <option>Mais de um serviço</option>
                   </select>
                 </div>
               </div>

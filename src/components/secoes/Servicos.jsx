@@ -1,6 +1,6 @@
 import { useMemo, useRef } from 'react';
 import { useVideoScrub } from '../../hooks/useVideoScrub';
-import { href, PAGINAS } from '../../paginas';
+import { href, paginaDoServico } from '../../paginas';
 
 /**
  * A seção em que a rolagem controla o vídeo.
@@ -82,7 +82,7 @@ export default function Servicos({ servicos, assetUrl }) {
                 {(() => {
                   // Serviço com página própria ganha o link para ela: é o caminho
                   // interno que mostra ao Google que a página existe e importa.
-                  const pagina = PAGINAS.find((p) => p.dados?.chave === s.chave);
+                  const pagina = paginaDoServico(s.chave);
                   return pagina ? (
                     <a href={href(pagina.caminho)} className="link" onClick={(e) => e.stopPropagation()}>
                       Saiba mais sobre {s.titulo.toLowerCase()} →

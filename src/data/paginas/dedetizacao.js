@@ -4,21 +4,20 @@
 // valida o modelo; depois de validado, os campos migram para o content.json e o
 // painel passa a editá-los.
 //
-// Tudo marcado com [A CONFIRMAR] é lacuna de informação da empresa, não texto
+// [A CONFIRMAR] é lacuna de informação da empresa; [SUGESTÃO: ...] é texto
+// proposto sem fonte no site, que a empresa precisa aprovar. Nenhum dos dois é texto
 // final. Só está afirmado aqui o que o próprio site já afirma (content.json):
 // procedimentos aprovados pela ANVISA, dedetização/desratização/descupinização,
 // urgência 24h inclusive fim de semana, visita técnica sem custo, equipe com EPI,
 // mais de 20 anos, condomínios/empresas/indústrias.
 
+import { regioes } from './comum';
+
 export const dedetizacao = {
-  caminho: 'dedetizacao-e-controle-de-pragas/',
+  caminho: 'servicos/dedetizacao-e-controle-de-pragas/',
   // Mesma `chave` do item em content.json → servicos.itens: é por ela que o
   // card da home encontra o link para esta página.
   chave: 'dedetizacao',
-  // Valor da opção do <select> do formulário. Mantém o generate_lead com o
-  // mesmo `servico` que a home já envia para o GA4.
-  servicoFormulario: 'Controle de pragas',
-
   seo: {
     titulo: 'Dedetização e Controle de Pragas para Condomínios e Empresas | Evolutionis',
     descricao:
@@ -35,7 +34,7 @@ export const dedetizacao = {
   incluido: {
     titulo: 'O que o serviço inclui',
     itens: [
-      { titulo: 'Dedetização', texto: 'Controle de insetos rasteiros e voadores. [A CONFIRMAR: quais insetos e quais métodos — gel, pulverização, iscas]' },
+      { titulo: 'Dedetização', texto: '[SUGESTÃO: controle de insetos rasteiros e voadores] [A CONFIRMAR: quais insetos e quais métodos — gel, pulverização, iscas]' },
       { titulo: 'Desratização', texto: 'Controle de roedores. [A CONFIRMAR: método — iscas, armadilhas, porta-iscas monitorados]' },
       { titulo: 'Descupinização', texto: 'Tratamento contra cupins. [A CONFIRMAR: tipos de cupim e método]' },
       { titulo: 'Monitoramento', texto: 'Acompanhamento depois da aplicação. [A CONFIRMAR: como é feito e com que frequência]' },
@@ -55,17 +54,13 @@ export const dedetizacao = {
   publicos: {
     titulo: 'Para quem atendemos',
     itens: [
-      { titulo: 'Condomínios', texto: 'Áreas comuns, garagens, casas de máquinas e reservatórios. [A CONFIRMAR: frequência recomendada]' },
-      { titulo: 'Empresas', texto: 'Escritórios, comércios e áreas de circulação. [A CONFIRMAR: frequência recomendada]' },
-      { titulo: 'Indústrias', texto: 'Áreas produtivas e de armazenagem. [A CONFIRMAR: exigências atendidas e frequência]' },
+      { titulo: 'Condomínios', texto: '[SUGESTÃO: áreas comuns, garagens, casas de máquinas e reservatórios] [A CONFIRMAR: frequência recomendada]' },
+      { titulo: 'Empresas', texto: '[SUGESTÃO: escritórios, comércios e áreas de circulação] [A CONFIRMAR: frequência recomendada]' },
+      { titulo: 'Indústrias', texto: '[SUGESTÃO: áreas produtivas e de armazenagem] [A CONFIRMAR: exigências atendidas e frequência]' },
     ],
   },
 
-  regioes: {
-    titulo: 'Regiões atendidas',
-    cidades: ['São Roque', 'Barueri', 'Alphaville', 'Cajamar', 'Indaiatuba', 'São Paulo'],
-    texto: 'Urgência 24h: chame no WhatsApp e acionamos a equipe de plantão. [A CONFIRMAR: o 24h vale para todas as cidades?]',
-  },
+  regioes: regioes('Urgência 24h: chame no WhatsApp e acionamos a equipe de plantão. [A CONFIRMAR: o 24h vale para todas as cidades?]'),
 
   faq: {
     titulo: 'Perguntas frequentes',

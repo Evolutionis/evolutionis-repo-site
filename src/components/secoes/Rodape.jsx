@@ -2,9 +2,9 @@ import { Icone } from '../Icones';
 import { isHttpsUrl } from '../../lib/sanitize';
 import { whatsappContactTemplate, whatsappLink } from '../../lib/whatsapp';
 import { track } from '../../lib/analytics';
-import { href, PAGINAS } from '../../paginas';
+import { href, paginaDoServico } from '../../paginas';
 
-export default function Rodape({ rodape, contato, logo }) {
+export default function Rodape({ rodape, contato, logo, servicos }) {
   // Um perfil que não seja https: não vira link. Sem o filtro, um valor como
   // "javascript:..." publicado pelo painel executaria no clique do visitante.
   const redes = [
@@ -36,10 +36,18 @@ export default function Rodape({ rodape, contato, logo }) {
           <div>
             <h5>Serviços</h5>
             <ul>
-              <li><a href={`${href()}#servicos`}>Limpeza profissional</a></li>
-              <li><a href={`${href()}#servicos`}>Paisagismo</a></li>
-              <li><a href={href(PAGINAS.find((p) => p.dados?.chave === 'dedetizacao').caminho)}>Controle de pragas</a></li>
-              <li><a href="#acompanhe">Portal do cliente</a></li>
+              {/* A mesma lista da home (content.json): serviço novo no painel
+                  aparece aqui sozinho; com página própria, o link vai para ela. */}
+              {servicos.itens.map((s) => {
+                const pagina = paginaDoServico(s.chave);
+                return (
+                  <li key={s.chave}>
+                    <a href={pagina ? href(pagina.caminho) : `${href()}#servicos`}>{s.titulo}</a>
+                  </li>
+                );
+              })}
+              <li><a href={href('servicos/')}>Todos os serviços</a></li>
+              <li><a href={`${href()}#acompanhe`}>Portal do cliente</a></li>
             </ul>
           </div>
 
