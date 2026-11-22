@@ -23,8 +23,8 @@
   <meta http-equiv="Content-Security-Policy" content="
     default-src 'self';
     script-src 'self' https://www.googletagmanager.com;
-    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
-    font-src 'self' https://fonts.gstatic.com;
+    style-src 'self' 'unsafe-inline';
+    font-src 'self';
     img-src 'self' https: data:;
     frame-src https://google.com https://*.google.com https://google.com.br https://*.google.com.br;
     connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com;
@@ -41,15 +41,14 @@
 
   <!-- Google tag (gtag.js). O bloco inline que o Google entrega foi para
        analytics-init.js — a CSP não deixa script inline rodar.
-       O ID precisa ser o mesmo nos dois arquivos (aqui e no `config` do init). -->
+       O ID precisa ser o mesmo nos dois arquivos (aqui e no `config` do init).
+       `defer`: sem ele o init bloqueava a renderização (PageSpeed). A ordem
+       continua garantida — roda antes do main.jsx, que também é adiado. -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LWMTQL9KPM"></script>
-  <script src="./analytics-init.js"></script>
-  <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32.png">
-  <link rel="apple-touch-icon" href="./apple-touch-icon.png">
+  <script defer src="%BASE_URL%analytics-init.js"></script>
+  <link rel="icon" type="image/png" sizes="32x32" href="%BASE_URL%favicon-32.png">
+  <link rel="apple-touch-icon" href="%BASE_URL%apple-touch-icon.png">
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
   <!-- Ponto de montagem do React. A ausência dele era o motivo de o app
