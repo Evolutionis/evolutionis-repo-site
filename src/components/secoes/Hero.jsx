@@ -15,25 +15,29 @@ export default function Hero({ hero }) {
       ?.scrollIntoView({ behavior: 'smooth', block: 'center' });
   };
 
+  // O topo NÃO usa a animação de entrada (.rv). Ela começa com opacity 0 e só
+  // revela depois que o JavaScript carrega e o observer dispara — e o texto do
+  // topo é o LCP da página: no PageSpeed de 22/11/2026, 81% do LCP era espera
+  // por essa revelação. Animação de entrada é para o que está abaixo da dobra.
   return (
     <section id="inicio">
       <div className="shell">
         <div className="hero-grid">
           <div>
-            <span className="eyebrow rv">{hero.badge}</span>
-            <h1 className="rv">
+            <span className="eyebrow">{hero.badge}</span>
+            <h1>
               {antes}
               {depois !== null && <><em>{hero.tituloDestaque}</em>{depois}</>}
             </h1>
-            <p className="lede rv">{hero.subtitulo}</p>
-            <div className="hero-cta rv">
+            <p className="lede">{hero.subtitulo}</p>
+            <div className="hero-cta">
               <a href="#contato" className="btn btn-solid">{hero.textoBotao1}</a>
               <a href="#servicos" className="btn btn-line">{hero.textoBotao2}</a>
             </div>
-            <p className="hero-note rv"><span className="dot-live" /> {hero.aviso}</p>
+            <p className="hero-note"><span className="dot-live" /> {hero.aviso}</p>
           </div>
 
-          <div className="pillars rv">
+          <div className="pillars">
             {hero.pilares.map((p) => (
               <a className="pillar" key={p.alvo} href="#servicos" onClick={irPara(p.alvo)}>
                 <span className="ic"><Icone nome={p.icone} /></span>
