@@ -56,10 +56,10 @@ export default function App({ inicial }) {
         <Clientes clientes={content.clientes} assetUrl={assetUrl} />
         <Diferenciais diferenciais={content.diferenciais} />
         <Depoimentos depoimentos={content.depoimentos} />
-        <Contato contato={content.contato} />
+        <Contato contato={content.contato} servicos={content.servicos} />
       </main>
 
-      <Rodape rodape={content.rodape} contato={content.contato} logo={logoRodape} />
+      <Rodape rodape={content.rodape} contato={content.contato} logo={logoRodape} servicos={content.servicos} />
       <WhatsAppFloat contato={content.contato} visivel={showWa && !perto} />
       <AvisoAtualizacao />
     </>

@@ -34,37 +34,55 @@ function trocar(html, de, para, rotulo) {
   return html.replace(de, para);
 }
 
-function headServico(html, pagina) {
+function empresa() {
+  const c = conteudo.contato;
+  return {
+    '@type': 'LocalBusiness',
+    name: 'Evolutionis Serviços Ltda.',
+    url: `${SITE}/`,
+    telephone: `+${String(c.whatsapp).replace(/\D/g, '')}`,
+    email: c.email,
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: c.endereco,
+      addressLocality: 'São Roque',
+      addressRegion: 'SP',
+      addressCountry: 'BR',
+    },
+  };
+}
+
+function trilha(pagina) {
+  const itens = [{ name: 'Início', item: `${SITE}/` }, { name: 'Serviços', item: `${SITE}/servicos/` }];
+  if (pagina.tipo === 'servico') itens.push({ name: pagina.dados.hero.eyebrow, item: `${SITE}/${pagina.caminho}` });
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: itens.map((it, i) => ({ '@type': 'ListItem', position: i + 1, ...it })),
+  };
+}
+
+/** <head> de toda página que não é a home: lista de serviços e cada serviço. */
+function headPagina(html, pagina) {
   const d = pagina.dados;
   const url = `${SITE}/${pagina.caminho}`;
   html = trocar(html, /<title>[\s\S]*?<\/title>/, `<title>${attr(d.seo.titulo)}</title>`, '<title>');
   html = trocar(html, /<meta name="description" content="[^"]*">/, `<meta name="description" content="${attr(d.seo.descricao)}">`, 'meta description');
   html = trocar(html, /<link rel="canonical" href="[^"]*">/, `<link rel="canonical" href="${attr(url)}">`, 'canonical');
 
-  const c = conteudo.contato;
-  const dados = {
-    '@context': 'https://schema.org',
-    '@type': 'Service',
-    name: d.hero.titulo,
-    serviceType: d.hero.eyebrow,
-    description: d.seo.descricao,
-    url,
-    areaServed: d.regioes.cidades.map((nome) => ({ '@type': 'City', name: nome })),
-    provider: {
-      '@type': 'LocalBusiness',
-      name: 'Evolutionis Serviços Ltda.',
-      url: `${SITE}/`,
-      telephone: `+${String(c.whatsapp).replace(/\D/g, '')}`,
-      email: c.email,
-      address: {
-        '@type': 'PostalAddress',
-        streetAddress: c.endereco,
-        addressLocality: 'São Roque',
-        addressRegion: 'SP',
-        addressCountry: 'BR',
-      },
-    },
-  };
+  const dados = [trilha(pagina)];
+  if (pagina.tipo === 'servico') {
+    dados.push({
+      '@context': 'https://schema.org',
+      '@type': 'Service',
+      name: d.hero.titulo,
+      serviceType: d.hero.eyebrow,
+      description: d.seo.descricao,
+      url,
+      areaServed: d.regioes.cidades.map((nome) => ({ '@type': 'City', name: nome })),
+      provider: empresa(),
+    });
+  }
 
   const extra = [
     `<meta property="og:type" content="website">`,
@@ -72,7 +90,7 @@ function headServico(html, pagina) {
     `<meta property="og:title" content="${attr(d.seo.titulo)}">`,
     `<meta property="og:description" content="${attr(d.seo.descricao)}">`,
     `<meta property="og:url" content="${attr(url)}">`,
-    `<script type="application/ld+json">${jsonSeguro(dados)}</script>`,
+    ...dados.map((o) => `<script type="application/ld+json">${jsonSeguro(o)}</script>`),
   ].join('\n  ');
   return html.replace('</head>', `  ${extra}\n</head>`);
 }
@@ -85,7 +103,7 @@ for (const pagina of PAGINAS) {
     `<div id="root">${corpo}</div>\n  <script id="conteudo-inicial" type="application/json">${jsonSeguro(conteudo)}</script>`,
     '<div id="root"></div>'
   );
-  if (pagina.tipo === 'servico') html = headServico(html, pagina);
+  if (pagina.tipo !== 'home') html = headPagina(html, pagina);
 
   const destino = resolve(dist, pagina.caminho, 'index.html');
   await mkdir(dirname(destino), { recursive: true });
