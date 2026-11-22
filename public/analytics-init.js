@@ -19,5 +19,5 @@ gtag('js', new Date());
 // real no relatório. O gtag.js carrega igual, mas sem `config` ele não envia
 // nada. Para medir a homologação também, apague o `if`.
 if (!/^\/preview(\/|$)/.test(window.location.pathname)) {
-  gtag('config', 'G-WPM1B5QR0Q');
+  gtag('config', 'G-LWMTQL9KPM');
 }
