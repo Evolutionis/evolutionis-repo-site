@@ -19,18 +19,26 @@ export const SITE = 'https://evolutionis.com.br';
 // e o Apache redireciona a versão sem barra para a com barra.
 const SERVICOS = [dedetizacao, paisagismo, limpezaPosObra, limpezaFachada, tratamentoPiso, limpezaCaixaDagua];
 
+const BASE = import.meta.env.BASE_URL || '/';
+
+// Portão de conteúdo. Página com `publicada: false` existe só na homologação
+// (build com base /preview/): em produção não é gerada, não entra no sitemap e
+// nenhum link aponta para ela. Assim a homolog pode seguir para a main a
+// qualquer momento — o código anda junto, e o conteúdo libera página por página
+// trocando uma flag, sem branch divergente.
+const MOSTRAR_RASCUNHOS = BASE !== '/';
+const visivel = (d) => d.publicada || MOSTRAR_RASCUNHOS;
+
 export const PAGINAS = [
   { caminho: '', tipo: 'home' },
-  { caminho: listaServicos.caminho, tipo: 'lista', dados: listaServicos },
-  ...SERVICOS.map((d) => ({ caminho: d.caminho, tipo: 'servico', dados: d })),
+  ...(visivel(listaServicos) ? [{ caminho: listaServicos.caminho, tipo: 'lista', dados: listaServicos }] : []),
+  ...SERVICOS.filter(visivel).map((d) => ({ caminho: d.caminho, tipo: 'servico', dados: d })),
 ];
 
 /** Página de um serviço pela `chave` do content.json (servicos.itens). */
 export function paginaDoServico(chave) {
   return PAGINAS.find((p) => p.tipo === 'servico' && p.dados.chave === chave);
 }
-
-const BASE = import.meta.env.BASE_URL || '/';
 
 /** Link interno, respeitando a base do build. */
 export function href(caminho = '') {

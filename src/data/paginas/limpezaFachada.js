@@ -4,6 +4,9 @@ import { regioes, etapas, faqPendente } from './comum';
 
 export const limpezaFachada = {
   caminho: 'servicos/limpeza-de-fachada/',
+  // false até o conteúdo ser aprovado pela empresa: a página aparece na
+  // homologação, mas não é gerada nem linkada em produção (ver src/paginas.js).
+  publicada: false,
   chave: 'fachada',
   seo: {
     titulo: 'Limpeza de Fachada e Vidros em Altura para Prédios e Empresas | Evolutionis',

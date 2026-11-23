@@ -113,19 +113,6 @@ export default defineConfig(({ isSsrBuild }) => ({
               expiration: { maxEntries: 4, maxAgeSeconds: 60 * 60 * 24 * 60 },
             },
           },
-          {
-            urlPattern: ({ url }) => url.origin === 'https://fonts.googleapis.com',
-            handler: 'StaleWhileRevalidate',
-            options: { cacheName: 'fontes-css' },
-          },
-          {
-            urlPattern: ({ url }) => url.origin === 'https://fonts.gstatic.com',
-            handler: 'CacheFirst',
-            options: {
-              cacheName: 'fontes-arquivos',
-              expiration: { maxEntries: 20, maxAgeSeconds: 60 * 60 * 24 * 365 },
-            },
-          },
         ],
       },
       devOptions: { enabled: false },

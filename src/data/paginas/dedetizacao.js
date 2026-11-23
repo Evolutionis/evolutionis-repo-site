@@ -17,6 +17,9 @@ export const dedetizacao = {
   caminho: 'servicos/dedetizacao-e-controle-de-pragas/',
   // Mesma `chave` do item em content.json → servicos.itens: é por ela que o
   // card da home encontra o link para esta página.
+  // false até o conteúdo ser aprovado pela empresa: a página aparece na
+  // homologação, mas não é gerada nem linkada em produção (ver src/paginas.js).
+  publicada: false,
   chave: 'dedetizacao',
   seo: {
     titulo: 'Dedetização e Controle de Pragas para Condomínios e Empresas | Evolutionis',

@@ -4,6 +4,9 @@ import { regioes, etapas, faqPendente } from './comum';
 
 export const paisagismo = {
   caminho: 'servicos/paisagismo/',
+  // false até o conteúdo ser aprovado pela empresa: a página aparece na
+  // homologação, mas não é gerada nem linkada em produção (ver src/paginas.js).
+  publicada: false,
   chave: 'paisagismo',
   seo: {
     titulo: 'Paisagismo para Condomínios e Empresas — Projeto e Manutenção | Evolutionis',

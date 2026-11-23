@@ -4,6 +4,9 @@ import { regioes, etapas, faqPendente } from './comum';
 
 export const limpezaCaixaDagua = {
   caminho: 'servicos/limpeza-de-caixa-dagua/',
+  // false até o conteúdo ser aprovado pela empresa: a página aparece na
+  // homologação, mas não é gerada nem linkada em produção (ver src/paginas.js).
+  publicada: false,
   chave: 'caixadagua',
   seo: {
     titulo: "Limpeza de Caixa d'Água com Laudo para Condomínios e Empresas | Evolutionis",

@@ -47,3 +47,35 @@
   # "expr=..." aqui é fácil de escrever errado e derruba o site com 500.
   Header always set Strict-Transport-Security "max-age=15768000" env=HTTPS
 </IfModule>
+
+# Cache e compressão — PageSpeed de 22/11/2026 ("ciclos de vida de cache" e
+# "latência da solicitação de documentos").
+#
+# A regra de ouro: só o que tem hash no nome pode ficar em cache por muito
+# tempo. Arquivo com nome fixo (HTML, sw.js, content.json) precisa revalidar a
+# cada visita, senão o visitante fica preso numa versão antiga — e o sw.js em
+# cache longo impediria qualquer atualização do site de chegar.
+<IfModule mod_headers.c>
+  # Padrão: revalida sempre (HTML, sw.js, content.json, manifest, robots, sitemap).
+  Header set Cache-Control "no-cache"
+
+  # Gerados pelo Vite com hash no nome (ex.: index-DicxVvWU.js): o nome muda a
+  # cada mudança de conteúdo, então podem ficar 1 ano sem revalidar.
+  <FilesMatch "-[A-Za-z0-9_-]{8}\.(js|css|woff2?)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+
+  # Imagens e vídeo têm nome fixo e podem ser trocados pelo painel: 7 dias é o
+  # meio-termo entre não baixar de novo a cada visita e não ficar preso numa
+  # versão antiga por muito tempo.
+  <FilesMatch "\.(png|jpe?g|webp|svg|ico|mp4|webm)$">
+    Header set Cache-Control "public, max-age=604800"
+  </FilesMatch>
+</IfModule>
+
+# Compressão do que é texto. Vídeo e imagens ficam de fora de propósito: já são
+# comprimidos, e comprimir o vídeo quebraria as requisições de intervalo (Range)
+# de que a rolagem do vídeo depende.
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/plain application/javascript text/javascript application/json application/manifest+json application/xml image/svg+xml
+</IfModule>

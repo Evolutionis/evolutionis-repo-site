@@ -1,4 +1,4 @@
-import { useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useVideoScrub } from '../../hooks/useVideoScrub';
 import { href, paginaDoServico } from '../../paginas';
 
@@ -26,12 +26,42 @@ export default function Servicos({ servicos, assetUrl }) {
   );
 
   const { videoRef, activeIndex, progress } = useVideoScrub(itensRef, segmentos);
+
+  // O vídeo só começa a baixar quando a seção está a uma tela de distância.
+  // Antes era preload="auto" desde o início: o WebM tem 4,3 MB (todo quadro é
+  // keyframe, exigência da rolagem — ver useVideoScrub) e o PageSpeed contava
+  // isso no carregamento de quem nem chegava a rolar até aqui.
+  const secaoRef = useRef(null);
+  const [carregarVideo, setCarregarVideo] = useState(false);
+  useEffect(() => {
+    const el = secaoRef.current;
+    if (!el || !('IntersectionObserver' in window)) {
+      setCarregarVideo(true);
+      return undefined;
+    }
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting) {
+          setCarregarVideo(true);
+          io.disconnect();
+        }
+      },
+      { rootMargin: '100% 0px' }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+  // Trocar preload de "none" para "auto" não basta para todo navegador começar
+  // a buscar; load() garante. O useVideoScrub reage ao loadedmetadata.
+  useEffect(() => {
+    if (carregarVideo) videoRef.current?.load();
+  }, [carregarVideo, videoRef]);
   const atual = servicos.itens[activeIndex] || servicos.itens[0];
   const atualTemVideo = Number.isFinite(atual.a) && Number.isFinite(atual.b);
   const total = String(servicos.itens.length).padStart(2, '0');
 
   return (
-    <section id="servicos">
+    <section id="servicos" ref={secaoRef}>
       <div className="shell">
         <div className="sec-head rv">
           <span className="eyebrow">{servicos.eyebrow}</span>
@@ -106,7 +136,7 @@ export default function Servicos({ servicos, assetUrl }) {
               ref={videoRef}
               playsInline
               muted
-              preload="auto"
+              preload={carregarVideo ? 'auto' : 'none'}
               poster={assetUrl('/poster.jpg')}
               aria-label="Equipes da Evolutionis executando os serviços"
             >
