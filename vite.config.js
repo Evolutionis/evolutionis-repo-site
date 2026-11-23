@@ -98,20 +98,14 @@ export default defineConfig(({ isSsrBuild }) => ({
               expiration: { maxEntries: 60, maxAgeSeconds: 60 * 60 * 24 * 60 },
             },
           },
-          {
-            // O filme dos serviços: pesado e imutável entre deploys.
-            urlPattern: ({ url }) => /\/servicos\.(mp4|webm)$/.test(url.pathname),
-            handler: 'CacheFirst',
-            options: {
-              cacheName: 'video-servicos',
-              // rangeRequests é obrigatório: sem ele o service worker devolve a
-              // resposta inteira para um pedido de intervalo e o vídeo deixa de
-              // poder ser buscado — que é justamente o que a rolagem faz.
-              rangeRequests: true,
-              cacheableResponse: { statuses: [200, 206] },
-              expiration: { maxEntries: 4, maxAgeSeconds: 60 * 60 * 24 * 60 },
-            },
-          },
+          // O vídeo dos serviços NÃO passa pelo service worker. A regra que havia
+          // aqui (CacheFirst + rangeRequests, guardando 200 e 206) tentava pôr
+          // respostas 206 no Cache Storage, que não aceita resposta parcial:
+          // "Failed to execute 'put' on 'Cache': Partial response (status code
+          // 206) is unsupported" a cada trecho baixado. E o cache nunca enchia,
+          // porque o navegador só pede o vídeo em intervalos (Range).
+          // Sem o SW no meio, o navegador trata os intervalos sozinho e o cache
+          // HTTP (7 dias, .htaccess) cobre as visitas seguintes.
         ],
       },
       devOptions: { enabled: false },
